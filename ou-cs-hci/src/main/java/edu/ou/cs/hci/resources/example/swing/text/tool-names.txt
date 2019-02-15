@@ -1,5 +1,5 @@
-archive.png
-book.png
-binoculars.png
-arrows-alt.png
-bath.png
+fastforward.png
+play.png
+rewind.png
+stop.png
+hamburger.png

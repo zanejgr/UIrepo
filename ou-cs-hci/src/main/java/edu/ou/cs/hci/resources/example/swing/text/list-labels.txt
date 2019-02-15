@@ -1,7 +1,12 @@
-Profile
-Address
-Birthday
-Feeding
-Walking
-Playtime
-Naptime
+Playlist
+Media library
+My Music
+My Pictures
+My Videos
+Universal Plug'n'Play
+Network Streams(SAP)
+Podcasts
+Free Music Charts
+ICast Stream Directory
+Icecast Radio Directory
+Jamendo Streams
