@@ -1,5 +1,0 @@
-Fast Forward
-Play
-Rewind
-Stop
-Menu

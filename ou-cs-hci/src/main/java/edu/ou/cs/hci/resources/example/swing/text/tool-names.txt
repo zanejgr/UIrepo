@@ -1,5 +1,0 @@
-fastforward.png
-play.png
-rewind.png
-stop.png
-hamburger.png

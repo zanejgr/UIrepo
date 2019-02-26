@@ -1,5 +1,0 @@
-cast.png
-globe.png
-images.png
-music.png
-video.png
