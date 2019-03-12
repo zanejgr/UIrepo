@@ -19,7 +19,7 @@ package world;
 import java.awt.Component;
 import java.awt.event.*;
 import java.awt.geom.Point2D;
-import edu.ou.cs.cg.examples.utilities.Utilities;
+import utilities.Utilities;
 
 //******************************************************************************
 

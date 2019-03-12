@@ -13,7 +13,7 @@
 //
 //******************************************************************************
 
-package edu.ou.cs.cg.utilities;
+package utilities;
 
 //import java.lang.*;
 import java.awt.event.*;

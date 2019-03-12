@@ -11,9 +11,9 @@ import com.jogamp.opengl.glu.*;
 import com.jogamp.opengl.util.FPSAnimator;
 import com.jogamp.opengl.util.awt.TextRenderer;
 
-import edu.ou.cs.cg.disco_ball.KeyHandler;
-import edu.ou.cs.cg.disco_ball.Model;
-import edu.ou.cs.cg.examples.utilities.Utilities;
+import world.KeyHandler;
+import world.Model;
+import utilities.Utilities;
 
 //******************************************************************************
 

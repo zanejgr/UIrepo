@@ -35,7 +35,7 @@ import java.awt.geom.Point2D;
 import java.util.*;
 import com.jogamp.opengl.*;
 
-import edu.ou.cs.cg.examples.utilities.Utilities;
+import utilities.Utilities;
 
 //******************************************************************************
 
