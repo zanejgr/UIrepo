@@ -137,11 +137,23 @@ public final class Light
 		gl.glEnable( GL2.GL_LIGHTING );  
 		gl.glEnable( GL2.GL_LIGHT0 );  
 		gl.glEnable( GL2.GL_NORMALIZE );  
+		//gl.glEnable(GL2.GL_COLOR_MATERIAL);
 
-		// multicolor diffuse 
-		float[] diffuseLight = { 1f,2f,1f,0f };  
-		gl.glLightfv( GL2.GL_LIGHT0, GL2.GL_DIFFUSE, diffuseLight, 0 ); 
+		//gl.glVertexAttribPointer(0, 3, GL2.GL_FLOAT, GL2.GL_FALSE, 6 * 32, );
+
+		
+		gl.glFlush();
 		render(drawable);
+		
+		// multicolor diffuse 
+		float[] diffuseLight = { 1f,1f,1f,0f };  
+		gl.glLightfv( GL2.GL_LIGHT0, GL2.GL_DIFFUSE, diffuseLight, 0 ); 
+
+		float[] lightPos = {.5f, .5f , 1.0f , 1.0f};
+		gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_POSITION, lightPos, 0 );
+		//gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_EMISSION, new float[]{.1f, .1f, .1f, 1},0);
+		
+		
 	}
 
 	public void	reshape(GLAutoDrawable drawable, int x, int y, int w, int h)
@@ -168,7 +180,7 @@ public final class Light
 	{
 		GL2	gl = drawable.getGL().getGL2();
 
-		gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);	// Clear the buffer
+		gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);// Clear the buffer
 
 		// Draw the light cube				
 		drawCube(gl);
