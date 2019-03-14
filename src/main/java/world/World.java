@@ -705,7 +705,7 @@ public final class World
 	
 	private void connectOvals(GL2 gl, float cx, float cy, float cz, double w, double h, double cylH, float r, float g, float b)
 	{
-		gl.glBegin(GL2.GL_QUAD_STRIP);
+		gl.glBegin(GL2.GL_TRIANGLE_STRIP);
 		gl.glColor3f(r, g, b);
 
 		for (int i=0; i<32; i++)
@@ -715,6 +715,8 @@ public final class World
 			gl.glVertex3f((float)(cx + w * Math.cos(a)), cy + (float)cylH, (float)(cz + h * Math.sin(a)));
 			gl.glVertex3f((float)(cx + w * Math.cos(a)), cy, (float)(cz + h * Math.sin(a)));
 		}
+		gl.glVertex3f((float)(cx + w * Math.cos(0)), cy + (float)cylH, (float)(cz + h * Math.sin(0)));
+		gl.glVertex3f((float)(cx + w * Math.cos(0)), cy, (float)(cz + h * Math.sin(0)));
 
 		gl.glEnd();
 	}
