@@ -59,6 +59,9 @@ public final class Model
 	private float 				rotateX;			// Rotation about X-axis
 	private float 				rotateY;			// Rotation about Y-axis
 	private float 				rotateZ;			// Rotation about Z-axis
+	private Velocity lightVelocity;
+	private Position lightPosition;
+	private int lightRadius;
 
 	//**********************************************************************
 	// Constructors and Finalizer
@@ -71,13 +74,25 @@ public final class Model
 		// Initialize user-adjustable variables (with reasonable default values)
 		origin = new Point2D.Double(0.0, 0.0);
 		rotateX = 0;
-		rotateY = 30;
-		rotateZ = 15;
+		rotateY = -165;
+		rotateZ = -15;
+		lightVelocity = new Velocity(0.01, 0.02);
+		lightPosition = new Position(0.5, 0.5);
 	}
 
 	//**********************************************************************
 	// Public Methods (Access Variables)
 	//**********************************************************************
+	
+	public Velocity getLightVelocity()
+	{
+		return this.lightVelocity;
+	}
+	
+	public Position getLightPosition()
+	{
+		return this.lightPosition;
+	}
 	
 	public Point2D.Double	getOrigin()
 	{
@@ -102,6 +117,19 @@ public final class Model
 	//**********************************************************************
 	// Public Methods (Modify Variables)
 	//**********************************************************************
+
+	
+	public void setLightVelocity(double x, double y)
+	{
+		this.lightVelocity.x = x;
+		this.lightVelocity.y = y;
+	}
+	
+	public void setLightPosition(double x, double y)
+	{
+		this.lightPosition.x = x;
+		this.lightPosition.y = y;
+	}
 	
 	public void	setOriginInSceneCoordinates(Point2D.Double q)
 	{

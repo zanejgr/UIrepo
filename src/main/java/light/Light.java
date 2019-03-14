@@ -47,6 +47,8 @@ public final class Light
 
 	private final Model				model;
 
+	private float radius = 0.02f;
+
 	private final KeyHandler			keyHandler;
 
 	//**********************************************************************
@@ -149,10 +151,10 @@ public final class Light
 		
 		//Creates a moving square that moves in a circular path mimic-ing the same path as the light
 		gl.glBegin(GL2.GL_POLYGON);
-		gl.glVertex3d(Math.cos((double)lightmove/10.0)* .5f + 0.01f, Math.sin((double)lightmove/10.0)* .5f + 0.01f, -0.5f);
-		gl.glVertex3d(Math.cos((double)lightmove/10.0)* .5f + 0.01f, Math.sin((double)lightmove/10.0)* .5f - 0.01f, -0.5f);
-		gl.glVertex3d(Math.cos((double)lightmove/10.0)* .5f - 0.01f, Math.sin((double)lightmove/10.0)* .5f - 0.01f, -0.5f);
-		gl.glVertex3d(Math.cos((double)lightmove/10.0)* .5f - 0.01f, Math.sin((double)lightmove/10.0)* .5f + 0.01f, -0.5f);
+		gl.glVertex3d(model.getLightPosition().x + radius, model.getLightPosition().y + radius, -0.5f);
+		gl.glVertex3d(model.getLightPosition().x + radius, model.getLightPosition().y - radius, -0.5f);
+		gl.glVertex3d(model.getLightPosition().x - radius, model.getLightPosition().y - radius, -0.5f);
+		gl.glVertex3d(model.getLightPosition().x - radius, model.getLightPosition().y + radius, -0.5f);
 		gl.glEnd();
 		
 		// multicolor diffuse 
@@ -160,11 +162,17 @@ public final class Light
 		gl.glLightfv( GL2.GL_LIGHT0, GL2.GL_DIFFUSE, diffuseLight, 0 ); 
 
 		
+		/*
 		System.out.println("Light X: " + (float)Math.cos((double)lightmove/10.0));
 		System.out.println("Light Y: " + (float)Math.sin((double)lightmove/10.0));
+		*/
+		System.out.println("X: " + model.getRotateX());
+		System.out.println("Y: " + model.getRotateY());
+		System.out.println("Z: " + model.getRotateZ());
+		
 		
 		//Moves the light around in a circular path
-		float[] lightPos = {(float)Math.cos((double)lightmove/10.0) * .5f, (float)Math.sin((double)lightmove/10.0) * .5f, 1.0f , 1.0f};
+		float[] lightPos = {(float)model.getLightPosition().x, (float)model.getLightPosition().y, 1.0f , 1.0f};
 		gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_POSITION, lightPos, 0 );
 		
 	}
@@ -189,6 +197,12 @@ public final class Light
 		counter++;									// Advance animation counter
 		if(counter % 10 == 0)
 			lightmove++;
+		
+		if(model.getLightPosition().x + model.getLightVelocity().x + radius > 0.5f || model.getLightPosition().x + model.getLightVelocity().x - radius < -0.5f)
+			model.setLightVelocity(-model.getLightVelocity().x, model.getLightVelocity().y);
+		if(model.getLightPosition().y + model.getLightVelocity().y + radius > 0.5f || model.getLightPosition().y + model.getLightVelocity().y - radius < -0.5f)
+			model.setLightVelocity(model.getLightVelocity().x, -model.getLightVelocity().y);
+		model.setLightPosition(model.getLightPosition().x + model.getLightVelocity().x, model.getLightPosition().y + model.getLightVelocity().y);
 	}
 
 	private void	render(GLAutoDrawable drawable)
