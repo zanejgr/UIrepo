@@ -19,7 +19,7 @@ import utilities.Utilities;
 /**
  * The <CODE>Light</CODE> class.<P>
  *
- * @author  Skylar Smith
+ * @author  Andy Vu
  * @version %I%, %G%
  */
 public final class Light
@@ -43,6 +43,7 @@ public final class Light
 
 	private final FPSAnimator		animator;
 	private int						counter;			// Frame counter
+	private int lightmove;
 
 	private final Model				model;
 
@@ -64,6 +65,7 @@ public final class Light
 
 		// Initialize rendering
 		counter = 0;
+		lightmove = 0;
 		canvas.addGLEventListener(this);
 
 		// Initialize animation
@@ -145,14 +147,25 @@ public final class Light
 		gl.glFlush();
 		render(drawable);
 		
+		//Creates a moving square that moves in a circular path mimic-ing the same path as the light
+		gl.glBegin(GL2.GL_POLYGON);
+		gl.glVertex3d(Math.cos((double)lightmove/10.0)* .5f + 0.01f, Math.sin((double)lightmove/10.0)* .5f + 0.01f, -0.5f);
+		gl.glVertex3d(Math.cos((double)lightmove/10.0)* .5f + 0.01f, Math.sin((double)lightmove/10.0)* .5f - 0.01f, -0.5f);
+		gl.glVertex3d(Math.cos((double)lightmove/10.0)* .5f - 0.01f, Math.sin((double)lightmove/10.0)* .5f - 0.01f, -0.5f);
+		gl.glVertex3d(Math.cos((double)lightmove/10.0)* .5f - 0.01f, Math.sin((double)lightmove/10.0)* .5f + 0.01f, -0.5f);
+		gl.glEnd();
+		
 		// multicolor diffuse 
 		float[] diffuseLight = { 1f,1f,1f,0f };  
 		gl.glLightfv( GL2.GL_LIGHT0, GL2.GL_DIFFUSE, diffuseLight, 0 ); 
 
-		float[] lightPos = {.5f, .5f , 1.0f , 1.0f};
-		gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_POSITION, lightPos, 0 );
-		//gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_EMISSION, new float[]{.1f, .1f, .1f, 1},0);
 		
+		System.out.println("Light X: " + (float)Math.cos((double)lightmove/10.0));
+		System.out.println("Light Y: " + (float)Math.sin((double)lightmove/10.0));
+		
+		//Moves the light around in a circular path
+		float[] lightPos = {(float)Math.cos((double)lightmove/10.0) * .5f, (float)Math.sin((double)lightmove/10.0) * .5f, 1.0f , 1.0f};
+		gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_POSITION, lightPos, 0 );
 		
 	}
 
@@ -174,6 +187,8 @@ public final class Light
 	private void	update(GLAutoDrawable drawable)
 	{
 		counter++;									// Advance animation counter
+		if(counter % 10 == 0)
+			lightmove++;
 	}
 
 	private void	render(GLAutoDrawable drawable)
@@ -239,6 +254,59 @@ public final class Light
 		// Red side - BOTTOM
 		gl.glBegin(GL2.GL_POLYGON);
 		gl.glColor3f(   1.0f,  0.0f,  0.0f );
+		gl.glVertex3f(  0.5f, -0.5f, -0.5f );
+		gl.glVertex3f(  0.5f, -0.5f,  0.5f );
+		gl.glVertex3f( -0.5f, -0.5f,  0.5f );
+		gl.glVertex3f( -0.5f, -0.5f, -0.5f );
+		gl.glEnd();
+
+	}
+	
+	private void drawLight(GL2 gl)
+	{
+
+		/* Cube will be missing front face */
+
+		// Rotate The Cube On X, Y & Z
+		gl.glRotatef(model.getRotateX(),0,0,1);
+		gl.glRotatef(model.getRotateY(),0,1,0);
+		gl.glRotatef(model.getRotateZ(),1,0,0);
+
+		// BACK
+		gl.glBegin(GL2.GL_POLYGON);
+		gl.glColor3f(   1.0f,  1.0f, 1.0f );
+		gl.glVertex3f(  0.5f, -0.5f, 0.5f );
+		gl.glVertex3f(  0.5f,  0.5f, 0.5f );
+		gl.glVertex3f( -0.5f,  0.5f, 0.5f );
+		gl.glVertex3f( -0.5f, -0.5f, 0.5f );
+		gl.glEnd();
+
+		// Right
+		gl.glBegin(GL2.GL_POLYGON);
+		gl.glVertex3f( 0.5f, -0.5f, -0.5f );
+		gl.glVertex3f( 0.5f,  0.5f, -0.5f );
+		gl.glVertex3f( 0.5f,  0.5f,  0.5f );
+		gl.glVertex3f( 0.5f, -0.5f,  0.5f );
+		gl.glEnd();
+
+		// LEFT
+		gl.glBegin(GL2.GL_POLYGON);
+		gl.glVertex3f( -0.5f, -0.5f,  0.5f );
+		gl.glVertex3f( -0.5f,  0.5f,  0.5f );
+		gl.glVertex3f( -0.5f,  0.5f, -0.5f );
+		gl.glVertex3f( -0.5f, -0.5f, -0.5f );
+		gl.glEnd();
+
+		// TOP
+		gl.glBegin(GL2.GL_POLYGON);
+		gl.glVertex3f(  0.5f,  0.5f,  0.5f );
+		gl.glVertex3f(  0.5f,  0.5f, -0.5f );
+		gl.glVertex3f( -0.5f,  0.5f, -0.5f );
+		gl.glVertex3f( -0.5f,  0.5f,  0.5f );
+		gl.glEnd();
+
+		// BOTTOM
+		gl.glBegin(GL2.GL_POLYGON);
 		gl.glVertex3f(  0.5f, -0.5f, -0.5f );
 		gl.glVertex3f(  0.5f, -0.5f,  0.5f );
 		gl.glVertex3f( -0.5f, -0.5f,  0.5f );
