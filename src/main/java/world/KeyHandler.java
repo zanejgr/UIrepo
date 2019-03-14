@@ -13,13 +13,13 @@
 //
 //******************************************************************************
 
-package world;
+package edu.ou.cs.cg.disco_ball;
 
 //import java.lang.*;
 import java.awt.Component;
 import java.awt.event.*;
 import java.awt.geom.Point2D;
-import utilities.Utilities;
+import edu.ou.cs.cg.examples.utilities.Utilities;
 
 //******************************************************************************
 
@@ -79,15 +79,13 @@ public final class KeyHandler extends KeyAdapter
 				model.setRotateX(-15);			break;
 
 			case KeyEvent.VK_A:
-				model.setRotateZ(-15);			break;
+				model.setRotateZ(15);			break;
 			
 			case KeyEvent.VK_Z:
-				model.setRotateZ(15);			break;
+				model.setRotateZ(-15);			break;
 				
 			case KeyEvent.VK_ENTER:
-				model.setRotateX(0);
-				model.setRotateY(0);
-				model.setRotateY(0);				break;
+				model.resetRotate();				break;
 		}
 	}
 }
