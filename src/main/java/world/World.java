@@ -167,7 +167,7 @@ public final class World
 		drawRoomCube2(gl);
 		drawPyramid(gl);
 		drawCylinder(gl);
-		//drawRing(gl);
+		drawRing(gl);
 	}
 	
 	//**********************************************************************
@@ -627,13 +627,25 @@ public final class World
 	private void drawCylinder(GL2 gl)
 	{
 		// BOTTOM
-		drawOval(gl, -0.3f, -0.495f, 0.2f, 0.1, 0.1);
+		drawOval(gl, -0.3f, -0.495f, 0.2f, 0.1, 0.1, true, 0.0f, 1.0f, 0.0f);
 		
 		// TOP
-		drawOval(gl, -0.3f, -0.2f, 0.2f, 0.1, 0.1);
+		drawOval(gl, -0.3f, -0.2f, 0.2f, 0.1, 0.1, true, 0.0f, 1.0f, 0.0f);
 		
 		// Connect them
-		connectOvals(gl, -0.3f, -0.2f, 0.2f, 0.1, 0.1, -0.495f + 0.2f);
+		connectOvals(gl, -0.3f, -0.2f, 0.2f, 0.1, 0.1, -0.495f + 0.2f, 0.0f, 1.0f, 0.0f);
+	}
+	
+	private void drawRing(GL2 gl)
+	{
+		// BOTTOM
+		drawOval(gl, -0.6f, -0.25f, 0.2f, 0.1, 0.1, false, 255f, 140f, 0f);
+		
+		// TOP
+		drawOval(gl, -0.6f, -0.15f, 0.2f, 0.1, 0.1, false, 255f, 140f, 0f);
+		
+		// Connect them
+		connectOvals(gl, -0.6f, -0.15f, 0.2f, 0.1, 0.1, -0.25f + 0.15f, 255f, 140f, 0f);
 	}
 	
 	//**********************************************************************
@@ -660,19 +672,22 @@ public final class World
 		gl.glEnd();
 	}
 	
-	private void	 drawOval(GL2 gl, float cx, float cy, float cz, double w, double h)
+	private void	 drawOval(GL2 gl, float cx, float cy, float cz, double w, double h, boolean filled, float r, float g, float b)
 	{
-		gl.glBegin(GL.GL_TRIANGLE_FAN);
-		gl.glColor3f(0.0f, 1.0f, 0.0f);
-
-		for (int i=0; i<32; i++)
+		if (filled)
 		{
-			double	a = (2.0 * Math.PI) * (i / 32.0);
+			gl.glBegin(GL.GL_TRIANGLE_FAN);
+			gl.glColor3f(r, g, b);
 
-			gl.glVertex3f((float)(cx + w * Math.cos(a)), cy, (float)(cz + h * Math.sin(a)));
+			for (int i=0; i<32; i++)
+			{
+				double	a = (2.0 * Math.PI) * (i / 32.0);
+
+				gl.glVertex3f((float)(cx + w * Math.cos(a)), cy, (float)(cz + h * Math.sin(a)));
+			}
+
+			gl.glEnd();
 		}
-
-		gl.glEnd();
 		
 		// Draw black outline
 		gl.glBegin(GL.GL_LINE_LOOP);
@@ -688,10 +703,10 @@ public final class World
 		gl.glEnd();
 	}
 	
-	private void connectOvals(GL2 gl, float cx, float cy, float cz, double w, double h, double cylH)
+	private void connectOvals(GL2 gl, float cx, float cy, float cz, double w, double h, double cylH, float r, float g, float b)
 	{
 		gl.glBegin(GL2.GL_QUAD_STRIP);
-		gl.glColor3f(0.0f, 1.0f, 0.0f);
+		gl.glColor3f(r, g, b);
 
 		for (int i=0; i<32; i++)
 		{
