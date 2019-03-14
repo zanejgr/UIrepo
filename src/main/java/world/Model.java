@@ -27,7 +27,7 @@
 //
 //******************************************************************************
 
-package world;
+package edu.ou.cs.cg.disco_ball;
 
 //import java.lang.*;
 import java.awt.Point;
@@ -35,7 +35,7 @@ import java.awt.geom.Point2D;
 import java.util.*;
 import com.jogamp.opengl.*;
 
-import utilities.Utilities;
+import edu.ou.cs.cg.examples.utilities.Utilities;
 
 //******************************************************************************
 
@@ -71,8 +71,8 @@ public final class Model
 		// Initialize user-adjustable variables (with reasonable default values)
 		origin = new Point2D.Double(0.0, 0.0);
 		rotateX = 0;
-		rotateY = 30;
-		rotateZ = 15;
+		rotateY = -165;
+		rotateZ = -15;
 	}
 
 	//**********************************************************************
@@ -134,6 +134,13 @@ public final class Model
 	public void setRotateZ(float z)
 	{
 		rotateZ += z;
+	}
+	
+	public void resetRotate()
+	{
+		rotateX = 0;
+		rotateY = -165;
+		rotateZ = -15;
 	}
 	
 	//**********************************************************************
