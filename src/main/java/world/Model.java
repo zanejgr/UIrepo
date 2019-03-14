@@ -123,17 +123,17 @@ public final class Model
 	
 	public void setRotateX(float x)
 	{
-		rotateX += x;
+		rotateX += x % 360;
 	}
 	
 	public void setRotateY(float y)
 	{
-		rotateY += y;
+		rotateY += y % 360;
 	}
 	
 	public void setRotateZ(float z)
 	{
-		rotateZ += z;
+		rotateZ += z % 360;
 	}
 	
 	public void resetRotate()
