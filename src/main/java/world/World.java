@@ -1,4 +1,4 @@
-package world;
+package edu.ou.cs.cg.disco_ball;
 
 //import java.lang.*;
 import java.awt.*;
@@ -11,9 +11,9 @@ import com.jogamp.opengl.glu.*;
 import com.jogamp.opengl.util.FPSAnimator;
 import com.jogamp.opengl.util.awt.TextRenderer;
 
-import world.KeyHandler;
-import world.Model;
-import utilities.Utilities;
+import edu.ou.cs.cg.disco_ball.KeyHandler;
+import edu.ou.cs.cg.disco_ball.Model;
+import edu.ou.cs.cg.examples.utilities.Utilities;
 
 //******************************************************************************
 
@@ -161,69 +161,467 @@ public final class World
 
 		gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);	// Clear the buffer
 
-		// Draw the world cube				
-		drawCube(gl);
+		// Draw the world 				
+		drawRoom(gl);
+		drawRoomCube1(gl);
+		drawRoomCube2(gl);
+		drawPyramid(gl);
+		//drawCylinder(gl);
+		//drawRing(gl);
 	}
 	
 	//**********************************************************************
 	// Private Methods (Scene)
 	//**********************************************************************
 	
-	private void drawCube(GL2 gl)
+	private void drawRoom(GL2 gl)
 	{
 		
-	    /* Cube will be missing front face */
+	    /* Room will be missing front face */
 		
 		// Rotate The Cube On X, Y & Z
 		gl.glRotatef(model.getRotateX(),0,0,1);
 		gl.glRotatef(model.getRotateY(),0,1,0);
 		gl.glRotatef(model.getRotateZ(),1,0,0);
 
-		// White side - BACK
+		/* BACK */
+		// Draw black outline (inside)
+		gl.glBegin(GL2.GL_LINE_LOOP);
+		gl.glColor3f(   0.0f,  0.0f, 0.0f );
+		gl.glVertex3f(  0.7f, -0.5f, 0.4995f );
+		gl.glVertex3f(  0.7f,  0.5f, 0.4995f );
+		gl.glVertex3f( -0.7f,  0.5f, 0.4995f );
+		gl.glVertex3f( -0.7f, -0.5f, 0.4995f );
+		gl.glEnd();
+		// Draw the square
 		gl.glBegin(GL2.GL_POLYGON);
-		gl.glColor3f(   1.0f,  1.0f, 1.0f );
-		gl.glVertex3f(  0.5f, -0.5f, 0.5f );
-		gl.glVertex3f(  0.5f,  0.5f, 0.5f );
-		gl.glVertex3f( -0.5f,  0.5f, 0.5f );
-		gl.glVertex3f( -0.5f, -0.5f, 0.5f );
+		gl.glColor3f(   0.85f,  0.85f, 0.85f );
+		gl.glVertex3f(  0.7f, -0.5f, 0.5f );
+		gl.glVertex3f(  0.7f,  0.5f, 0.5f );
+		gl.glVertex3f( -0.7f,  0.5f, 0.5f );
+		gl.glVertex3f( -0.7f, -0.5f, 0.5f );
+		gl.glEnd();
+		// Draw black outline (outside)
+		gl.glBegin(GL2.GL_LINE_LOOP);
+		gl.glColor3f(   0.0f,  0.0f, 0.0f );
+		gl.glVertex3f(  0.7f, -0.5f, 0.5f );
+		gl.glVertex3f(  0.7f,  0.5f, 0.5f );
+		gl.glVertex3f( -0.7f,  0.5f, 0.5f );
+		gl.glVertex3f( -0.7f, -0.5f, 0.5f );
 		gl.glEnd();
 		
-		// Purple side - RIGHT
+		/* LEFT */
+		// Draw black outline (inside)
+		gl.glBegin(GL2.GL_LINE_LOOP);
+		gl.glColor3f(  0.0f,  0.0f,  0.0f );
+		gl.glVertex3f( 0.6995f, -0.5f, -0.5f );
+		gl.glVertex3f( 0.6995f, -0.5f,  0.5f );
+		gl.glVertex3f( 0.6995f,  0.5f,  0.5f );
+		gl.glVertex3f( 0.6995f,  0.5f, -0.5f );
+		gl.glEnd();
+		// Draw the square
 		gl.glBegin(GL2.GL_POLYGON);
-		gl.glColor3f(  1.0f,  0.0f,  1.0f );
-		gl.glVertex3f( 0.5f, -0.5f, -0.5f );
-		gl.glVertex3f( 0.5f,  0.5f, -0.5f );
-		gl.glVertex3f( 0.5f,  0.5f,  0.5f );
-		gl.glVertex3f( 0.5f, -0.5f,  0.5f );
+		gl.glColor3f(  1.0f,  1.0f,  1.0f );
+		gl.glVertex3f( 0.7f, -0.5f, -0.5f );
+		gl.glVertex3f( 0.7f,  0.5f, -0.5f );
+		gl.glVertex3f( 0.7f,  0.5f,  0.5f );
+		gl.glVertex3f( 0.7f, -0.5f,  0.5f );
+		gl.glEnd();
+		// Draw black outline (outside)
+		gl.glBegin(GL2.GL_LINE_LOOP);
+		gl.glColor3f(  0.0f,  0.0f,  0.0f );
+		gl.glVertex3f( 0.7f, -0.5f, -0.5f );
+		gl.glVertex3f( 0.7f,  0.5f, -0.5f );
+		gl.glVertex3f( 0.7f,  0.5f,  0.5f );
+		gl.glVertex3f( 0.7f, -0.5f,  0.5f );
 		gl.glEnd();
 		
-		// Green side - LEFT
+		/* RIGHT */
+		// Draw black outline (inside)
+		gl.glBegin(GL2.GL_LINE_LOOP);
+		gl.glColor3f(   0.0f,  0.0f,  0.0f );
+		gl.glVertex3f( -0.6995f, -0.5f, -0.5f );
+		gl.glVertex3f( -0.6995f, -0.5f,  0.5f );
+		gl.glVertex3f( -0.6995f,  0.5f,  0.5f );
+		gl.glVertex3f( -0.6995f,  0.5f, -0.5f );
+		gl.glEnd();
+		// Draw the square
 		gl.glBegin(GL2.GL_POLYGON);
-		gl.glColor3f(   0.0f,  1.0f,  0.0f );
-		gl.glVertex3f( -0.5f, -0.5f,  0.5f );
-		gl.glVertex3f( -0.5f,  0.5f,  0.5f );
-		gl.glVertex3f( -0.5f,  0.5f, -0.5f );
-		gl.glVertex3f( -0.5f, -0.5f, -0.5f );
+		gl.glColor3f(   0.50f,  0.50f,  0.50f );
+		gl.glVertex3f( -0.7f, -0.5f,  0.5f );
+		gl.glVertex3f( -0.7f,  0.5f,  0.5f );
+		gl.glVertex3f( -0.7f,  0.5f, -0.5f );
+		gl.glVertex3f( -0.7f, -0.5f, -0.5f );
+		gl.glEnd();
+		// Draw black outline (outside)
+		gl.glBegin(GL2.GL_LINE_LOOP);
+		gl.glColor3f(   0.0f,  0.0f,  0.0f );
+		gl.glVertex3f( -0.7f, -0.5f,  0.5f );
+		gl.glVertex3f( -0.7f,  0.5f,  0.5f );
+		gl.glVertex3f( -0.7f,  0.5f, -0.5f );
+		gl.glVertex3f( -0.7f, -0.5f, -0.5f );
 		gl.glEnd();
 
-		// Blue side - TOP
+		/* TOP */
+		// Draw black outline (inside)
+		gl.glBegin(GL2.GL_LINE_LOOP);
+		gl.glColor3f(   0.0f,  0.0f,  0.0f );
+		gl.glVertex3f(  0.7f,  0.4995f,  0.5f );
+		gl.glVertex3f( -0.7f,  0.4995f,  0.5f );
+		gl.glEnd();
+		// Draw the square
 		gl.glBegin(GL2.GL_POLYGON);
-		gl.glColor3f(   0.0f,  0.0f,  1.0f );
-		gl.glVertex3f(  0.5f,  0.5f,  0.5f );
-		gl.glVertex3f(  0.5f,  0.5f, -0.5f );
-		gl.glVertex3f( -0.5f,  0.5f, -0.5f );
-		gl.glVertex3f( -0.5f,  0.5f,  0.5f );
+		gl.glColor3f(   1.0f,  1.0f,  1.0f );
+		gl.glVertex3f(  0.7f,  0.5f,  0.5f );
+		gl.glVertex3f(  0.7f,  0.5f, -0.5f );
+		gl.glVertex3f( -0.7f,  0.5f, -0.5f );
+		gl.glVertex3f( -0.7f,  0.5f,  0.5f );
+		gl.glEnd();
+		// Draw black outline (outside)
+		gl.glBegin(GL2.GL_LINE_LOOP);
+		gl.glColor3f(   0.0f,  0.0f,  0.0f );
+		gl.glVertex3f(  0.7f,  0.5f,  0.5f );
+		gl.glVertex3f(  0.7f,  0.5f, -0.5f );
+		gl.glVertex3f( -0.7f,  0.5f, -0.5f );
+		gl.glVertex3f( -0.7f,  0.5f,  0.5f );
 		gl.glEnd();
 		
-		// Red side - BOTTOM
+		/* BOTTOM */
+		// Draw black outline (inside)
+		gl.glBegin(GL2.GL_LINE_LOOP);
+		gl.glColor3f(   0.0f,  0.0f,  0.0f );
+		gl.glVertex3f(  0.7f, -0.4995f, -0.5f );
+		gl.glVertex3f( -0.7f, -0.4995f, -0.5f );
+		gl.glEnd();
+		// Draw the square
 		gl.glBegin(GL2.GL_POLYGON);
-		gl.glColor3f(   1.0f,  0.0f,  0.0f );
-		gl.glVertex3f(  0.5f, -0.5f, -0.5f );
-		gl.glVertex3f(  0.5f, -0.5f,  0.5f );
-		gl.glVertex3f( -0.5f, -0.5f,  0.5f );
-		gl.glVertex3f( -0.5f, -0.5f, -0.5f );
+		gl.glColor3f(   0.7f,  0.7f,  0.7f );
+		gl.glVertex3f(  0.7f, -0.5f, -0.5f );
+		gl.glVertex3f(  0.7f, -0.5f,  0.5f );
+		gl.glVertex3f( -0.7f, -0.5f,  0.5f );
+		gl.glVertex3f( -0.7f, -0.5f, -0.5f );
+		gl.glEnd();
+		// Draw black outline (outside)
+		gl.glBegin(GL2.GL_LINE_LOOP);
+		gl.glColor3f(   0.0f,  0.0f,  0.0f );
+		gl.glVertex3f(  0.7f, -0.5f, -0.5f );
+		gl.glVertex3f(  0.7f, -0.5f,  0.5f );
+		gl.glVertex3f( -0.7f, -0.5f,  0.5f );
+		gl.glVertex3f( -0.7f, -0.5f, -0.5f );
 		gl.glEnd();
 
+	}
+	
+	private void drawRoomCube1(GL2 gl)
+	{
+
+		/* BACK */
+		// Draw the square
+		gl.glBegin(GL2.GL_POLYGON);
+		gl.glColor3f(   1.0f,  0.0f, 0.0f );
+		gl.glVertex3f(  0.4f, -0.5f, 0.3f );
+		gl.glVertex3f(  0.4f, -0.3f, 0.3f );
+		gl.glVertex3f(  0.2f, -0.3f, 0.3f );
+		gl.glVertex3f(  0.2f, -0.5f, 0.3f );
+		gl.glEnd();
+		// Draw black outline (outside)
+		gl.glBegin(GL2.GL_LINE_LOOP);
+		gl.glColor3f(   0.0f,  0.0f, 0.0f );
+		gl.glVertex3f(  0.4f, -0.5f, 0.3f );
+		gl.glVertex3f(  0.4f, -0.3f, 0.3f );
+		gl.glVertex3f(  0.2f, -0.3f, 0.3f );
+		gl.glVertex3f(  0.2f, -0.5f, 0.3f );
+		gl.glEnd();
+		
+		/* LEFT */
+		// Draw the square
+		gl.glBegin(GL2.GL_POLYGON);
+		gl.glColor3f(   1.0f,  0.0f, 0.0f );
+		gl.glVertex3f(  0.4f, -0.5f, 0.3f );
+		gl.glVertex3f(  0.4f, -0.5f, 0.1f );
+		gl.glVertex3f(  0.4f, -0.3f, 0.1f );
+		gl.glVertex3f(  0.4f, -0.3f, 0.3f );
+		gl.glEnd();
+		// Draw black outline (outside)
+		gl.glBegin(GL2.GL_LINE_LOOP);
+		gl.glColor3f(   0.0f,  0.0f, 0.0f );
+		gl.glVertex3f(  0.4f, -0.5f, 0.3f );
+		gl.glVertex3f(  0.4f, -0.5f, 0.1f );
+		gl.glVertex3f(  0.4f, -0.3f, 0.1f );
+		gl.glVertex3f(  0.4f, -0.3f, 0.3f );
+		gl.glEnd();
+		
+		/* RIGHT */
+		// Draw the square
+		gl.glBegin(GL2.GL_POLYGON);
+		gl.glColor3f(   1.0f,  0.0f, 0.0f );
+		gl.glVertex3f(  0.2f, -0.5f, 0.3f );
+		gl.glVertex3f(  0.2f, -0.5f, 0.1f );
+		gl.glVertex3f(  0.2f, -0.3f, 0.1f );
+		gl.glVertex3f(  0.2f, -0.3f, 0.3f );
+		gl.glEnd();
+		// Draw black outline (outside)
+		gl.glBegin(GL2.GL_LINE_LOOP);
+		gl.glColor3f(   0.0f,  0.0f, 0.0f );
+		gl.glVertex3f(  0.2f, -0.5f, 0.3f );
+		gl.glVertex3f(  0.2f, -0.5f, 0.1f );
+		gl.glVertex3f(  0.2f, -0.3f, 0.1f );
+		gl.glVertex3f(  0.2f, -0.3f, 0.3f );
+		gl.glEnd();
+
+		/* TOP */
+		// Draw the square
+		gl.glBegin(GL2.GL_POLYGON);
+		gl.glColor3f(   1.0f,  0.0f, 0.0f );
+		gl.glVertex3f(  0.4f, -0.3f, 0.3f );
+		gl.glVertex3f(  0.4f, -0.3f, 0.1f );
+		gl.glVertex3f(  0.2f, -0.3f, 0.1f );
+		gl.glVertex3f(  0.2f, -0.3f, 0.3f );
+		gl.glEnd();
+		// Draw black outline (outside)
+		gl.glBegin(GL2.GL_LINE_LOOP);
+		gl.glColor3f(   0.0f,  0.0f, 0.0f );
+		gl.glVertex3f(  0.4f, -0.3f, 0.3f );
+		gl.glVertex3f(  0.4f, -0.3f, 0.1f );
+		gl.glVertex3f(  0.2f, -0.3f, 0.1f );
+		gl.glVertex3f(  0.2f, -0.3f, 0.3f );
+		gl.glEnd();
+		
+		/* BOTTOM */
+		// Draw the square
+		gl.glBegin(GL2.GL_POLYGON);
+		gl.glColor3f(   1.0f,  0.0f, 0.0f );
+		gl.glVertex3f(  0.4f, -0.5f, 0.3f );
+		gl.glVertex3f(  0.4f, -0.5f, 0.1f );
+		gl.glVertex3f(  0.2f, -0.5f, 0.1f );
+		gl.glVertex3f(  0.2f, -0.5f, 0.3f );
+		gl.glEnd();
+		// Draw black outline (outside)
+		gl.glBegin(GL2.GL_LINE_LOOP);
+		gl.glColor3f(   0.0f,  0.0f, 0.0f );
+		gl.glVertex3f(  0.4f, -0.5f, 0.3f );
+		gl.glVertex3f(  0.4f, -0.5f, 0.1f );
+		gl.glVertex3f(  0.2f, -0.5f, 0.1f );
+		gl.glVertex3f(  0.2f, -0.5f, 0.3f );
+		gl.glEnd();
+		
+		/* FRONT */
+		// Draw the square
+		gl.glBegin(GL2.GL_POLYGON);
+		gl.glColor3f(   1.0f,  0.0f, 0.0f );
+		gl.glVertex3f(  0.4f, -0.5f, 0.1f );
+		gl.glVertex3f(  0.4f, -0.3f, 0.1f );
+		gl.glVertex3f(  0.2f, -0.3f, 0.1f );
+		gl.glVertex3f(  0.2f, -0.5f, 0.1f );
+		gl.glEnd();
+		// Draw black outline (outside)
+		gl.glBegin(GL2.GL_LINE_LOOP);
+		gl.glColor3f(   0.0f,  0.0f, 0.0f );
+		gl.glVertex3f(  0.4f, -0.5f, 0.1f );
+		gl.glVertex3f(  0.4f, -0.3f, 0.1f );
+		gl.glVertex3f(  0.2f, -0.3f, 0.1f );
+		gl.glVertex3f(  0.2f, -0.5f, 0.1f );
+		gl.glEnd();
+
+	}
+	
+	private void drawRoomCube2(GL2 gl)
+	{
+
+		/* BACK */
+		// Draw the square
+		gl.glBegin(GL2.GL_POLYGON);
+		gl.glColor3f(   1.0f,  0.0f, 0.0f );
+		gl.glVertex3f(  0.4f, -0.3f, 0.3f );
+		gl.glVertex3f(  0.4f, -0.1f, 0.3f );
+		gl.glVertex3f(  0.2f, -0.1f, 0.3f );
+		gl.glVertex3f(  0.2f, -0.3f, 0.3f );
+		gl.glEnd();
+		// Draw black outline (outside)
+		gl.glBegin(GL2.GL_LINE_LOOP);
+		gl.glColor3f(   0.0f,  0.0f, 0.0f );
+		gl.glVertex3f(  0.4f, -0.3f, 0.3f );
+		gl.glVertex3f(  0.4f, -0.1f, 0.3f );
+		gl.glVertex3f(  0.2f, -0.1f, 0.3f );
+		gl.glVertex3f(  0.2f, -0.3f, 0.3f );
+		gl.glEnd();
+		
+		/* LEFT */
+		// Draw the square
+		gl.glBegin(GL2.GL_POLYGON);
+		gl.glColor3f(   1.0f,  0.0f, 0.0f );
+		gl.glVertex3f(  0.4f, -0.3f, 0.3f );
+		gl.glVertex3f(  0.4f, -0.3f, 0.1f );
+		gl.glVertex3f(  0.4f, -0.1f, 0.1f );
+		gl.glVertex3f(  0.4f, -0.1f, 0.3f );
+		gl.glEnd();
+		// Draw black outline (outside)
+		gl.glBegin(GL2.GL_LINE_LOOP);
+		gl.glColor3f(   0.0f,  0.0f, 0.0f );
+		gl.glVertex3f(  0.4f, -0.3f, 0.3f );
+		gl.glVertex3f(  0.4f, -0.3f, 0.1f );
+		gl.glVertex3f(  0.4f, -0.1f, 0.1f );
+		gl.glVertex3f(  0.4f, -0.1f, 0.3f );
+		gl.glEnd();
+		
+		/* RIGHT */
+		// Draw the square
+		gl.glBegin(GL2.GL_POLYGON);
+		gl.glColor3f(   1.0f,  0.0f, 0.0f );
+		gl.glVertex3f(  0.2f, -0.3f, 0.3f );
+		gl.glVertex3f(  0.2f, -0.3f, 0.1f );
+		gl.glVertex3f(  0.2f, -0.1f, 0.1f );
+		gl.glVertex3f(  0.2f, -0.1f, 0.3f );
+		gl.glEnd();
+		// Draw black outline (outside)
+		gl.glBegin(GL2.GL_LINE_LOOP);
+		gl.glColor3f(   0.0f,  0.0f, 0.0f );
+		gl.glVertex3f(  0.2f, -0.3f, 0.3f );
+		gl.glVertex3f(  0.2f, -0.3f, 0.1f );
+		gl.glVertex3f(  0.2f, -0.1f, 0.1f );
+		gl.glVertex3f(  0.2f, -0.1f, 0.3f );
+		gl.glEnd();
+
+		/* TOP */
+		// Draw the square
+		gl.glBegin(GL2.GL_POLYGON);
+		gl.glColor3f(   1.0f,  0.0f, 0.0f );
+		gl.glVertex3f(  0.4f, -0.1f, 0.3f );
+		gl.glVertex3f(  0.4f, -0.1f, 0.1f );
+		gl.glVertex3f(  0.2f, -0.1f, 0.1f );
+		gl.glVertex3f(  0.2f, -0.1f, 0.3f );
+		gl.glEnd();
+		// Draw black outline (outside)
+		gl.glBegin(GL2.GL_LINE_LOOP);
+		gl.glColor3f(   0.0f,  0.0f, 0.0f );
+		gl.glVertex3f(  0.4f, -0.1f, 0.3f );
+		gl.glVertex3f(  0.4f, -0.1f, 0.1f );
+		gl.glVertex3f(  0.2f, -0.1f, 0.1f );
+		gl.glVertex3f(  0.2f, -0.1f, 0.3f );
+		gl.glEnd();
+		
+		/* BOTTOM */
+		// Draw the square
+		gl.glBegin(GL2.GL_POLYGON);
+		gl.glColor3f(   1.0f,  0.0f, 0.0f );
+		gl.glVertex3f(  0.4f, -0.3f, 0.3f );
+		gl.glVertex3f(  0.4f, -0.3f, 0.1f );
+		gl.glVertex3f(  0.2f, -0.3f, 0.1f );
+		gl.glVertex3f(  0.2f, -0.3f, 0.3f );
+		gl.glEnd();
+		// Draw black outline (outside)
+		gl.glBegin(GL2.GL_LINE_LOOP);
+		gl.glColor3f(   0.0f,  0.0f, 0.0f );
+		gl.glVertex3f(  0.4f, -0.3f, 0.3f );
+		gl.glVertex3f(  0.4f, -0.3f, 0.1f );
+		gl.glVertex3f(  0.2f, -0.3f, 0.1f );
+		gl.glVertex3f(  0.2f, -0.3f, 0.3f );
+		gl.glEnd();
+		
+		/* FRONT */
+		// Draw the square
+		gl.glBegin(GL2.GL_POLYGON);
+		gl.glColor3f(   1.0f,  0.0f, 0.0f );
+		gl.glVertex3f(  0.4f, -0.3f, 0.1f );
+		gl.glVertex3f(  0.4f, -0.1f, 0.1f );
+		gl.glVertex3f(  0.2f, -0.1f, 0.1f );
+		gl.glVertex3f(  0.2f, -0.3f, 0.1f );
+		gl.glEnd();
+		// Draw black outline (outside)
+		gl.glBegin(GL2.GL_LINE_LOOP);
+		gl.glColor3f(   0.0f,  0.0f, 0.0f );
+		gl.glVertex3f(  0.4f, -0.3f, 0.1f );
+		gl.glVertex3f(  0.4f, -0.1f, 0.1f );
+		gl.glVertex3f(  0.2f, -0.1f, 0.1f );
+		gl.glVertex3f(  0.2f, -0.3f, 0.1f );
+		gl.glEnd();
+
+	}
+	
+	private void drawPyramid(GL2 gl)
+	{
+		/* BOTTOM */
+		// Draw the square
+		gl.glBegin(GL2.GL_POLYGON);
+		gl.glColor3f(   0.0f,  0.0f, 1.0f );
+		gl.glVertex3f(  0.1f, -0.5f, 0.3f );
+		gl.glVertex3f(  0.1f, -0.5f, 0.1f );
+		gl.glVertex3f( -0.1f, -0.5f, 0.1f );
+		gl.glVertex3f( -0.1f, -0.5f, 0.3f );
+		gl.glEnd();
+		// Draw black outline (outside)
+		gl.glBegin(GL2.GL_LINE_LOOP);
+		gl.glColor3f(   0.0f,  0.0f, 1.0f );
+		gl.glVertex3f(  0.1f, -0.5f, 0.3f );
+		gl.glVertex3f(  0.1f, -0.5f, 0.1f );
+		gl.glVertex3f( -0.1f, -0.5f, 0.1f );
+		gl.glVertex3f( -0.1f, -0.5f, 0.3f );
+		gl.glEnd();
+		
+		/* BACK */
+		// Draw the triangle
+		gl.glBegin(GL2.GL_POLYGON);
+		gl.glColor3f(   0.0f,  0.0f, 1.0f );
+		gl.glVertex3f(  0.1f, -0.5f, 0.3f );
+		gl.glVertex3f(  0.0f, -0.3f, 0.2f );
+		gl.glVertex3f( -0.1f, -0.5f, 0.3f );
+		gl.glEnd();
+		// Draw black outline (outside)
+		gl.glBegin(GL2.GL_LINE_LOOP);
+		gl.glColor3f(   0.0f,  0.0f, 0.0f );
+		gl.glVertex3f(  0.1f, -0.5f, 0.3f );
+		gl.glVertex3f(  0.0f, -0.3f, 0.2f );
+		gl.glVertex3f( -0.1f, -0.5f, 0.3f );
+		gl.glEnd();
+		
+		/* LEFT */
+		// Draw the triangle
+		gl.glBegin(GL2.GL_POLYGON);
+		gl.glColor3f(   0.0f,  0.0f, 1.0f );
+		gl.glVertex3f(  0.1f, -0.5f, 0.3f );
+		gl.glVertex3f(  0.0f, -0.3f, 0.2f );
+		gl.glVertex3f(  0.1f, -0.5f, 0.1f );
+		gl.glEnd();
+		// Draw black outline (outside)
+		gl.glBegin(GL2.GL_LINE_LOOP);
+		gl.glColor3f(   0.0f,  0.0f, 0.0f );
+		gl.glVertex3f(  0.1f, -0.5f, 0.3f );
+		gl.glVertex3f(  0.0f, -0.3f, 0.2f );
+		gl.glVertex3f(  0.1f, -0.5f, 0.1f );
+		gl.glEnd();
+		
+		/* RIGHT */
+		// Draw the triangle
+		gl.glBegin(GL2.GL_POLYGON);
+		gl.glColor3f(   0.0f,  0.0f, 1.0f );
+		gl.glVertex3f( -0.1f, -0.5f, 0.3f );
+		gl.glVertex3f(  0.0f, -0.3f, 0.2f );
+		gl.glVertex3f( -0.1f, -0.5f, 0.1f );
+		gl.glEnd();
+		// Draw black outline (outside)
+		gl.glBegin(GL2.GL_LINE_LOOP);
+		gl.glColor3f(   0.0f,  0.0f, 0.0f );
+		gl.glVertex3f( -0.1f, -0.5f, 0.3f );
+		gl.glVertex3f(  0.0f, -0.3f, 0.2f );
+		gl.glVertex3f( -0.1f, -0.5f, 0.1f );
+		gl.glEnd();
+		
+		/* FRONT */
+		// Draw the triangle
+		gl.glBegin(GL2.GL_POLYGON);
+		gl.glColor3f(   0.0f,  0.0f, 1.0f );
+		gl.glVertex3f(  0.1f, -0.5f, 0.1f );
+		gl.glVertex3f(  0.0f, -0.3f, 0.2f );
+		gl.glVertex3f( -0.1f, -0.5f, 0.1f );
+		gl.glEnd();
+		// Draw black outline (outside)
+		gl.glBegin(GL2.GL_LINE_LOOP);
+		gl.glColor3f(   0.0f,  0.0f, 0.0f );
+		gl.glVertex3f(  0.1f, -0.5f, 0.1f );
+		gl.glVertex3f(  0.0f, -0.3f, 0.2f );
+		gl.glVertex3f( -0.1f, -0.5f, 0.1f );
+		gl.glEnd();
+		
 	}
 	
 	//**********************************************************************
