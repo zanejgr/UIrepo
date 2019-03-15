@@ -124,5 +124,5 @@ def createScript(project, jvmOpts, name, mainClass)
 
 //create scripts for main functions for other classes
 createScript(project,altJvmArgs,'collision','Collision.CollisionTestCase')
-createScript(project,altJvmArgs,'world','world.Application')
+createScript(project,altJvmArgs,'world','World.Application')
 createScript(project,altJvmArgs,'light','light.Application')

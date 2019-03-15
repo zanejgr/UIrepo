@@ -1,4 +1,4 @@
-package edu.ou.cs.cg.disco_ball;
+package World;
 
 //import java.lang.*;
 import java.awt.*;
@@ -11,9 +11,9 @@ import com.jogamp.opengl.glu.*;
 import com.jogamp.opengl.util.FPSAnimator;
 import com.jogamp.opengl.util.awt.TextRenderer;
 
-import edu.ou.cs.cg.disco_ball.KeyHandler;
-import edu.ou.cs.cg.disco_ball.Model;
-import edu.ou.cs.cg.examples.utilities.Utilities;
+import World.KeyHandler;
+import World.Model;
+import utilities.Utilities;
 
 //******************************************************************************
 
