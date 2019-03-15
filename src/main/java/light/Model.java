@@ -29,6 +29,7 @@
 
 package light;
 
+import java.awt.Color;
 //import java.lang.*;
 import java.awt.Point;
 import java.awt.geom.Point2D;
@@ -62,6 +63,11 @@ public final class Model
 	private Velocity lightVelocity;
 	private Position lightPosition;
 	private int lightRadius;
+	private LightColor lightColor;
+	private LightColor[] colorList = {
+			new LightColor(1.0f, 1.0f, 1.0f), new LightColor(1.0f, 2.0f, 1.0f), new LightColor(1.0f, 1.0f, 2.0f), new LightColor(2.0f, 1.0f, 1.0f)
+	};
+	private int colorCounter;
 
 	//**********************************************************************
 	// Constructors and Finalizer
@@ -76,14 +82,20 @@ public final class Model
 		rotateX = 0;
 		rotateY = -165;
 		rotateZ = -15;
-		lightVelocity = new Velocity(0.01, 0.02);
+		lightVelocity = new Velocity(0.01, 0.03);
 		lightPosition = new Position(0.5, 0.5);
+		lightColor = colorList[0];
+		colorCounter = 0;
 	}
 
 	//**********************************************************************
 	// Public Methods (Access Variables)
 	//**********************************************************************
 	
+	public LightColor getLightColor()
+	{
+		return lightColor;
+	}
 	public Velocity getLightVelocity()
 	{
 		return this.lightVelocity;
@@ -118,6 +130,13 @@ public final class Model
 	// Public Methods (Modify Variables)
 	//**********************************************************************
 
+	public void cycleLightColor()
+	{
+		++colorCounter;
+		if(colorCounter > 3)
+			colorCounter = 0;
+		this.lightColor = colorList[colorCounter];
+	}
 	
 	public void setLightVelocity(double x, double y)
 	{
@@ -151,17 +170,17 @@ public final class Model
 	
 	public void setRotateX(float x)
 	{
-		rotateX += x;
+		rotateX += x % 360;
 	}
 	
 	public void setRotateY(float y)
 	{
-		rotateY += y;
+		rotateY += y % 360;
 	}
 	
 	public void setRotateZ(float z)
 	{
-		rotateZ += z;
+		rotateZ += z % 360;
 	}
 	
 	//**********************************************************************
