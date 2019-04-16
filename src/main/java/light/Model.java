@@ -29,6 +29,7 @@
 
 package light;
 
+import java.awt.Color;
 //import java.lang.*;
 import java.awt.Point;
 import java.awt.geom.Point2D;
@@ -59,6 +60,14 @@ public final class Model
 	private float 				rotateX;			// Rotation about X-axis
 	private float 				rotateY;			// Rotation about Y-axis
 	private float 				rotateZ;			// Rotation about Z-axis
+	private Velocity lightVelocity;
+	private Position lightPosition;
+	private int lightRadius;
+	private LightColor lightColor;
+	private LightColor[] colorList = {
+			new LightColor(1.0f, 1.0f, 1.0f), new LightColor(1.0f, 2.0f, 1.0f), new LightColor(1.0f, 1.0f, 2.0f), new LightColor(2.0f, 1.0f, 1.0f)
+	};
+	private int colorCounter;
 
 	//**********************************************************************
 	// Constructors and Finalizer
@@ -71,13 +80,31 @@ public final class Model
 		// Initialize user-adjustable variables (with reasonable default values)
 		origin = new Point2D.Double(0.0, 0.0);
 		rotateX = 0;
-		rotateY = 30;
-		rotateZ = 15;
+		rotateY = -165;
+		rotateZ = -15;
+		lightVelocity = new Velocity(0.01, 0.03);
+		lightPosition = new Position(0.5, 0.5);
+		lightColor = colorList[0];
+		colorCounter = 0;
 	}
 
 	//**********************************************************************
 	// Public Methods (Access Variables)
 	//**********************************************************************
+	
+	public LightColor getLightColor()
+	{
+		return lightColor;
+	}
+	public Velocity getLightVelocity()
+	{
+		return this.lightVelocity;
+	}
+	
+	public Position getLightPosition()
+	{
+		return this.lightPosition;
+	}
 	
 	public Point2D.Double	getOrigin()
 	{
@@ -102,6 +129,26 @@ public final class Model
 	//**********************************************************************
 	// Public Methods (Modify Variables)
 	//**********************************************************************
+
+	public void cycleLightColor()
+	{
+		++colorCounter;
+		if(colorCounter > 3)
+			colorCounter = 0;
+		this.lightColor = colorList[colorCounter];
+	}
+	
+	public void setLightVelocity(double x, double y)
+	{
+		this.lightVelocity.x = x;
+		this.lightVelocity.y = y;
+	}
+	
+	public void setLightPosition(double x, double y)
+	{
+		this.lightPosition.x = x;
+		this.lightPosition.y = y;
+	}
 	
 	public void	setOriginInSceneCoordinates(Point2D.Double q)
 	{
@@ -123,17 +170,17 @@ public final class Model
 	
 	public void setRotateX(float x)
 	{
-		rotateX += x;
+		rotateX += x % 360;
 	}
 	
 	public void setRotateY(float y)
 	{
-		rotateY += y;
+		rotateY += y % 360;
 	}
 	
 	public void setRotateZ(float z)
 	{
-		rotateZ += z;
+		rotateZ += z % 360;
 	}
 	
 	//**********************************************************************

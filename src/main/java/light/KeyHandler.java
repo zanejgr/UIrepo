@@ -84,6 +84,9 @@ public final class KeyHandler extends KeyAdapter
 			case KeyEvent.VK_Z:
 				model.setRotateZ(15);			break;
 				
+			case KeyEvent.VK_C:
+				model.cycleLightColor();        break;
+				
 			case KeyEvent.VK_ENTER:
 				model.setRotateX(0);
 				model.setRotateY(0);
