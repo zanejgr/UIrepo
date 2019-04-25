@@ -57,8 +57,11 @@ public final class View
 	
 	private int crateTexture;
 	private int brickTexture;
+	private int metalTexture;
+	private int grassTexture;
+	private int feltTexture;
+	private int roomTexture;
 	
-
 	private final Model				model;
 	
 	private float radius = 0.02f;
@@ -160,6 +163,38 @@ public final class View
 	    	  e.printStackTrace();
 		  }
 	      
+	      try{
+	    	  File image = new File("metal.jpg");
+	    	  Texture t = TextureIO.newTexture(image, true);
+	    	  metalTexture = t.getTextureObject(gl);
+	      }catch(IOException e){
+	    	  e.printStackTrace();
+		  }
+	      
+	      try{
+	    	  File image = new File("grass.bmp");
+	    	  Texture t = TextureIO.newTexture(image, true);
+	    	  grassTexture = t.getTextureObject(gl);
+	      }catch(IOException e){
+	    	  e.printStackTrace();
+		  }
+	      
+	      try{
+	    	  File image = new File("felt.bmp");
+	    	  Texture t = TextureIO.newTexture(image, true);
+	    	  feltTexture = t.getTextureObject(gl);
+	      }catch(IOException e){
+	    	  e.printStackTrace();
+		  }
+	      
+	      try{
+	    	  File image = new File("room.bmp");
+	    	  Texture t = TextureIO.newTexture(image, true);
+	    	  roomTexture = t.getTextureObject(gl);
+	      }catch(IOException e){
+	    	  e.printStackTrace();
+		  }
+	      
 	}
 
 	public void	display(GLAutoDrawable drawable)
@@ -244,8 +279,8 @@ public final class View
 		gl.glHint(GL2.GL_PERSPECTIVE_CORRECTION_HINT, GL2.GL_NICEST);
 		
 		float[] white = {1.0f, 1.0f, 1.0f, 1.0f};
-		gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SPECULAR, white, 0);
-		gl.glMaterialf(GL2.GL_FRONT, GL2.GL_SHININESS, 16.0f);
+		//gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SPECULAR, white, 0);
+		//gl.glMaterialf(GL2.GL_FRONT, GL2.GL_SHININESS, 16.0f);
 		
 		gl.glPushMatrix();
 		
@@ -363,361 +398,258 @@ public final class View
 	private void drawRoom(GL2 gl)
 	{
 		
-	    /* Room will be missing front face */
+		gl.glEnable(GL2.GL_TEXTURE_2D);
+		gl.glBindTexture(GL2.GL_TEXTURE_2D, roomTexture);
 		
-		// Rotate The Cube On X, Y & Z
 		
+		gl.glColor3f(   0.8f,  0.8f, 0.8f );
 		/* BACK */
-		// Draw black outline (inside)
-		gl.glBegin(GL2.GL_LINE_LOOP);
-		gl.glColor3f(   0.0f,  0.0f, 0.0f );
-		gl.glVertex3f(  0.7f, -0.5f, 0.4995f );
-		gl.glVertex3f(  0.7f,  0.5f, 0.4995f );
-		gl.glVertex3f( -0.7f,  0.5f, 0.4995f );
-		gl.glVertex3f( -0.7f, -0.5f, 0.4995f );
-		gl.glEnd();
 		// Draw the square
 		gl.glBegin(GL2.GL_POLYGON);
-		gl.glColor3f(   0.85f,  0.85f, 0.85f );
+		gl.glTexCoord2f(0.0f, 0.0f);
 		gl.glVertex3f(  0.7f, -0.5f, 0.5f );
+		gl.glTexCoord2f(0.0f, 1.0f);
 		gl.glVertex3f(  0.7f,  0.5f, 0.5f );
+		gl.glTexCoord2f(1.0f, 1.0f);
 		gl.glVertex3f( -0.7f,  0.5f, 0.5f );
-		gl.glVertex3f( -0.7f, -0.5f, 0.5f );
-		gl.glEnd();
-		// Draw black outline (outside)
-		gl.glBegin(GL2.GL_LINE_LOOP);
-		gl.glColor3f(   0.0f,  0.0f, 0.0f );
-		gl.glVertex3f(  0.7f, -0.5f, 0.5f );
-		gl.glVertex3f(  0.7f,  0.5f, 0.5f );
-		gl.glVertex3f( -0.7f,  0.5f, 0.5f );
+		gl.glTexCoord2f(1.0f, 0.0f);
 		gl.glVertex3f( -0.7f, -0.5f, 0.5f );
 		gl.glEnd();
 		
+		gl.glColor3f(   0.9f,  0.9f, 0.9f );
 		/* LEFT */
-		// Draw black outline (inside)
-		gl.glBegin(GL2.GL_LINE_LOOP);
-		gl.glColor3f(  0.0f,  0.0f,  0.0f );
-		gl.glVertex3f( 0.6995f, -0.5f, -0.5f );
-		gl.glVertex3f( 0.6995f, -0.5f,  0.5f );
-		gl.glVertex3f( 0.6995f,  0.5f,  0.5f );
-		gl.glVertex3f( 0.6995f,  0.5f, -0.5f );
-		gl.glEnd();
 		// Draw the square
 		gl.glBegin(GL2.GL_POLYGON);
-		gl.glColor3f(   0.85f,  0.85f, 0.85f );
+		gl.glTexCoord2f(0.0f, 0.0f);
 		gl.glVertex3f( 0.7f, -0.5f, -0.5f );
+		gl.glTexCoord2f(0.0f, 1.0f);
 		gl.glVertex3f( 0.7f,  0.5f, -0.5f );
+		gl.glTexCoord2f(1.0f, 1.0f);
 		gl.glVertex3f( 0.7f,  0.5f,  0.5f );
-		gl.glVertex3f( 0.7f, -0.5f,  0.5f );
-		gl.glEnd();
-		// Draw black outline (outside)
-		gl.glBegin(GL2.GL_LINE_LOOP);
-		gl.glColor3f(  0.0f,  0.0f,  0.0f );
-		gl.glVertex3f( 0.7f, -0.5f, -0.5f );
-		gl.glVertex3f( 0.7f,  0.5f, -0.5f );
-		gl.glVertex3f( 0.7f,  0.5f,  0.5f );
+		gl.glTexCoord2f(1.0f, 0.0f);
 		gl.glVertex3f( 0.7f, -0.5f,  0.5f );
 		gl.glEnd();
 		
+		gl.glColor3f(   0.9f,  0.9f, 0.9f );
 		/* RIGHT */
-		// Draw black outline (inside)
-		gl.glBegin(GL2.GL_LINE_LOOP);
-		gl.glColor3f(   0.0f,  0.0f,  0.0f );
-		gl.glVertex3f( -0.6995f, -0.5f, -0.5f );
-		gl.glVertex3f( -0.6995f, -0.5f,  0.5f );
-		gl.glVertex3f( -0.6995f,  0.5f,  0.5f );
-		gl.glVertex3f( -0.6995f,  0.5f, -0.5f );
-		gl.glEnd();
 		// Draw the square
 		gl.glBegin(GL2.GL_POLYGON);
-		gl.glColor3f(   0.85f,  0.85f, 0.85f );
+		gl.glTexCoord2f(0.0f, 0.0f);
 		gl.glVertex3f( -0.7f, -0.5f,  0.5f );
+		gl.glTexCoord2f(0.0f, 1.0f);
 		gl.glVertex3f( -0.7f,  0.5f,  0.5f );
+		gl.glTexCoord2f(1.0f, 1.0f);
 		gl.glVertex3f( -0.7f,  0.5f, -0.5f );
+		gl.glTexCoord2f(1.0f, 0.0f);
 		gl.glVertex3f( -0.7f, -0.5f, -0.5f );
 		gl.glEnd();
-		// Draw black outline (outside)
-		gl.glBegin(GL2.GL_LINE_LOOP);
-		gl.glColor3f(   0.0f,  0.0f,  0.0f );
-		gl.glVertex3f( -0.7f, -0.5f,  0.5f );
-		gl.glVertex3f( -0.7f,  0.5f,  0.5f );
-		gl.glVertex3f( -0.7f,  0.5f, -0.5f );
-		gl.glVertex3f( -0.7f, -0.5f, -0.5f );
-		gl.glEnd();
-
+		
+		gl.glColor3f(   0.9f,  0.9f, 0.9f );
 		/* TOP */
-		// Draw black outline (inside)
-		gl.glBegin(GL2.GL_LINE_LOOP);
-		gl.glColor3f(   0.0f,  0.0f,  0.0f );
-		gl.glVertex3f(  0.7f,  0.4995f,  0.5f );
-		gl.glVertex3f( -0.7f,  0.4995f,  0.5f );
-		gl.glEnd();
 		// Draw the square
 		gl.glBegin(GL2.GL_POLYGON);
-		gl.glColor3f(   0.85f,  0.85f, 0.85f );
+		gl.glTexCoord2f(0.0f, 0.0f);
 		gl.glVertex3f(  0.7f,  0.5f,  0.5f );
+		gl.glTexCoord2f(0.0f, 1.0f);
 		gl.glVertex3f(  0.7f,  0.5f, -0.5f );
+		gl.glTexCoord2f(1.0f, 1.0f);
 		gl.glVertex3f( -0.7f,  0.5f, -0.5f );
-		gl.glVertex3f( -0.7f,  0.5f,  0.5f );
-		gl.glEnd();
-		// Draw black outline (outside)
-		gl.glBegin(GL2.GL_LINE_LOOP);
-		gl.glColor3f(   0.0f,  0.0f,  0.0f );
-		gl.glVertex3f(  0.7f,  0.5f,  0.5f );
-		gl.glVertex3f(  0.7f,  0.5f, -0.5f );
-		gl.glVertex3f( -0.7f,  0.5f, -0.5f );
+		gl.glTexCoord2f(1.0f, 0.0f);
 		gl.glVertex3f( -0.7f,  0.5f,  0.5f );
 		gl.glEnd();
 		
+		gl.glColor3f(   0.9f,  0.9f, 0.9f );
 		/* BOTTOM */
-		// Draw black outline (inside)
-		gl.glBegin(GL2.GL_LINE_LOOP);
-		gl.glColor3f(   0.0f,  0.0f,  0.0f );
-		gl.glVertex3f(  0.7f, -0.4995f, -0.5f );
-		gl.glVertex3f( -0.7f, -0.4995f, -0.5f );
-		gl.glEnd();
 		// Draw the square
 		gl.glBegin(GL2.GL_POLYGON);
-		gl.glColor3f(   0.85f,  0.85f, 0.85f );
+		gl.glTexCoord2f(0.0f, 0.0f);
 		gl.glVertex3f(  0.7f, -0.5f, -0.5f );
+		gl.glTexCoord2f(0.0f, 1.0f);
 		gl.glVertex3f(  0.7f, -0.5f,  0.5f );
+		gl.glTexCoord2f(1.0f, 1.0f);
 		gl.glVertex3f( -0.7f, -0.5f,  0.5f );
+		gl.glTexCoord2f(1.0f, 0.0f);
 		gl.glVertex3f( -0.7f, -0.5f, -0.5f );
 		gl.glEnd();
-		// Draw black outline (outside)
-		gl.glBegin(GL2.GL_LINE_LOOP);
-		gl.glColor3f(   0.0f,  0.0f,  0.0f );
-		gl.glVertex3f(  0.7f, -0.5f, -0.5f );
-		gl.glVertex3f(  0.7f, -0.5f,  0.5f );
-		gl.glVertex3f( -0.7f, -0.5f,  0.5f );
-		gl.glVertex3f( -0.7f, -0.5f, -0.5f );
-		gl.glEnd();
-
+		
+		gl.glDisable(GL2.GL_TEXTURE_2D);
+		
 	}
 	
 	private void drawRoomCube1(GL2 gl)
 	{
-
+		gl.glColor3f(   1.0f,  1.0f, 1.0f );
+		gl.glEnable(GL2.GL_TEXTURE_2D);
+		gl.glBindTexture(GL2.GL_TEXTURE_2D, feltTexture);
+	
 		/* BACK */
 		// Draw the square
 		gl.glBegin(GL2.GL_POLYGON);
-		gl.glColor3f(   1.0f,  0.0f, 0.0f );
+		gl.glTexCoord2f(0.0f, 0.0f);
 		gl.glVertex3f(  0.4f, -0.5f, 0.3f );
+		gl.glTexCoord2f(0.0f, 1.0f);
 		gl.glVertex3f(  0.4f, -0.3f, 0.3f );
+		gl.glTexCoord2f(1.0f, 1.0f);
 		gl.glVertex3f(  0.2f, -0.3f, 0.3f );
-		gl.glVertex3f(  0.2f, -0.5f, 0.3f );
-		gl.glEnd();
-		// Draw black outline (outside)
-		gl.glBegin(GL2.GL_LINE_LOOP);
-		gl.glColor3f(   0.0f,  0.0f, 0.0f );
-		gl.glVertex3f(  0.4f, -0.5f, 0.3f );
-		gl.glVertex3f(  0.4f, -0.3f, 0.3f );
-		gl.glVertex3f(  0.2f, -0.3f, 0.3f );
+		gl.glTexCoord2f(1.0f, 0.0f);
 		gl.glVertex3f(  0.2f, -0.5f, 0.3f );
 		gl.glEnd();
 		
 		/* LEFT */
 		// Draw the square
 		gl.glBegin(GL2.GL_POLYGON);
-		gl.glColor3f(   1.0f,  0.0f, 0.0f );
+		gl.glTexCoord2f(0.0f, 0.0f);
 		gl.glVertex3f(  0.4f, -0.5f, 0.3f );
+		gl.glTexCoord2f(0.0f, 1.0f);
 		gl.glVertex3f(  0.4f, -0.5f, 0.1f );
+		gl.glTexCoord2f(1.0f, 1.0f);
 		gl.glVertex3f(  0.4f, -0.3f, 0.1f );
-		gl.glVertex3f(  0.4f, -0.3f, 0.3f );
-		gl.glEnd();
-		// Draw black outline (outside)
-		gl.glBegin(GL2.GL_LINE_LOOP);
-		gl.glColor3f(   0.0f,  0.0f, 0.0f );
-		gl.glVertex3f(  0.4f, -0.5f, 0.3f );
-		gl.glVertex3f(  0.4f, -0.5f, 0.1f );
-		gl.glVertex3f(  0.4f, -0.3f, 0.1f );
+		gl.glTexCoord2f(1.0f, 0.0f);
 		gl.glVertex3f(  0.4f, -0.3f, 0.3f );
 		gl.glEnd();
 		
 		/* RIGHT */
 		// Draw the square
 		gl.glBegin(GL2.GL_POLYGON);
-		gl.glColor3f(   1.0f,  0.0f, 0.0f );
+		gl.glTexCoord2f(0.0f, 0.0f);
 		gl.glVertex3f(  0.2f, -0.5f, 0.3f );
+		gl.glTexCoord2f(0.0f, 1.0f);
 		gl.glVertex3f(  0.2f, -0.5f, 0.1f );
+		gl.glTexCoord2f(1.0f, 1.0f);
 		gl.glVertex3f(  0.2f, -0.3f, 0.1f );
+		gl.glTexCoord2f(1.0f, 0.0f);
 		gl.glVertex3f(  0.2f, -0.3f, 0.3f );
 		gl.glEnd();
-		// Draw black outline (outside)
-		gl.glBegin(GL2.GL_LINE_LOOP);
-		gl.glColor3f(   0.0f,  0.0f, 0.0f );
-		gl.glVertex3f(  0.2f, -0.5f, 0.3f );
-		gl.glVertex3f(  0.2f, -0.5f, 0.1f );
-		gl.glVertex3f(  0.2f, -0.3f, 0.1f );
-		gl.glVertex3f(  0.2f, -0.3f, 0.3f );
-		gl.glEnd();
-
+	
 		/* TOP */
 		// Draw the square
 		gl.glBegin(GL2.GL_POLYGON);
-		gl.glColor3f(   1.0f,  0.0f, 0.0f );
+		gl.glTexCoord2f(0.0f, 0.0f);
 		gl.glVertex3f(  0.4f, -0.3f, 0.3f );
+		gl.glTexCoord2f(0.0f, 1.0f);
 		gl.glVertex3f(  0.4f, -0.3f, 0.1f );
+		gl.glTexCoord2f(1.0f, 1.0f);
 		gl.glVertex3f(  0.2f, -0.3f, 0.1f );
-		gl.glVertex3f(  0.2f, -0.3f, 0.3f );
-		gl.glEnd();
-		// Draw black outline (outside)
-		gl.glBegin(GL2.GL_LINE_LOOP);
-		gl.glColor3f(   0.0f,  0.0f, 0.0f );
-		gl.glVertex3f(  0.4f, -0.3f, 0.3f );
-		gl.glVertex3f(  0.4f, -0.3f, 0.1f );
-		gl.glVertex3f(  0.2f, -0.3f, 0.1f );
+		gl.glTexCoord2f(1.0f, 0.0f);
 		gl.glVertex3f(  0.2f, -0.3f, 0.3f );
 		gl.glEnd();
 		
 		/* BOTTOM */
 		// Draw the square
 		gl.glBegin(GL2.GL_POLYGON);
-		gl.glColor3f(   1.0f,  0.0f, 0.0f );
+		gl.glTexCoord2f(0.0f, 0.0f);
 		gl.glVertex3f(  0.4f, -0.5f, 0.3f );
+		gl.glTexCoord2f(0.0f, 1.0f);
 		gl.glVertex3f(  0.4f, -0.5f, 0.1f );
+		gl.glTexCoord2f(1.0f, 1.0f);
 		gl.glVertex3f(  0.2f, -0.5f, 0.1f );
+		gl.glTexCoord2f(1.0f, 0.0f);
 		gl.glVertex3f(  0.2f, -0.5f, 0.3f );
 		gl.glEnd();
-		// Draw black outline (outside)
-		gl.glBegin(GL2.GL_LINE_LOOP);
-		gl.glColor3f(   0.0f,  0.0f, 0.0f );
-		gl.glVertex3f(  0.4f, -0.5f, 0.3f );
-		gl.glVertex3f(  0.4f, -0.5f, 0.1f );
-		gl.glVertex3f(  0.2f, -0.5f, 0.1f );
-		gl.glVertex3f(  0.2f, -0.5f, 0.3f );
-		gl.glEnd();
-		
+	
 		/* FRONT */
 		// Draw the square
 		gl.glBegin(GL2.GL_POLYGON);
-		gl.glColor3f(   1.0f,  0.0f, 0.0f );
+		gl.glTexCoord2f(0.0f, 0.0f);
 		gl.glVertex3f(  0.4f, -0.5f, 0.1f );
+		gl.glTexCoord2f(0.0f, 1.0f);
 		gl.glVertex3f(  0.4f, -0.3f, 0.1f );
+		gl.glTexCoord2f(1.0f, 1.0f);
 		gl.glVertex3f(  0.2f, -0.3f, 0.1f );
+		gl.glTexCoord2f(1.0f, 0.0f);
 		gl.glVertex3f(  0.2f, -0.5f, 0.1f );
 		gl.glEnd();
-		// Draw black outline (outside)
-		gl.glBegin(GL2.GL_LINE_LOOP);
-		gl.glColor3f(   0.0f,  0.0f, 0.0f );
-		gl.glVertex3f(  0.4f, -0.5f, 0.1f );
-		gl.glVertex3f(  0.4f, -0.3f, 0.1f );
-		gl.glVertex3f(  0.2f, -0.3f, 0.1f );
-		gl.glVertex3f(  0.2f, -0.5f, 0.1f );
-		gl.glEnd();
-
+		
+		gl.glDisable(GL2.GL_TEXTURE_2D);
+		
 	}
 	
 	private void drawRoomCube2(GL2 gl)
 	{
-
+		gl.glColor3f(   1.0f,  1.0f, 1.0f );
+		
+		gl.glEnable(GL2.GL_TEXTURE_2D);
+		gl.glBindTexture(GL2.GL_TEXTURE_2D, grassTexture);
+		
 		/* BACK */
 		// Draw the square
 		gl.glBegin(GL2.GL_POLYGON);
-		gl.glColor3f(   1.0f,  0.0f, 0.0f );
+		gl.glTexCoord2f(0.0f, 0.0f);
 		gl.glVertex3f(  0.4f, -0.3f, 0.3f );
+		gl.glTexCoord2f(0.0f, 1.0f);
 		gl.glVertex3f(  0.4f, -0.1f, 0.3f );
+		gl.glTexCoord2f(1.0f, 1.0f);
 		gl.glVertex3f(  0.2f, -0.1f, 0.3f );
-		gl.glVertex3f(  0.2f, -0.3f, 0.3f );
-		gl.glEnd();
-		// Draw black outline (outside)
-		gl.glBegin(GL2.GL_LINE_LOOP);
-		gl.glColor3f(   0.0f,  0.0f, 0.0f );
-		gl.glVertex3f(  0.4f, -0.3f, 0.3f );
-		gl.glVertex3f(  0.4f, -0.1f, 0.3f );
-		gl.glVertex3f(  0.2f, -0.1f, 0.3f );
+		gl.glTexCoord2f(1.0f, 0.0f);
 		gl.glVertex3f(  0.2f, -0.3f, 0.3f );
 		gl.glEnd();
 		
 		/* LEFT */
 		// Draw the square
 		gl.glBegin(GL2.GL_POLYGON);
-		gl.glColor3f(   1.0f,  0.0f, 0.0f );
+		gl.glTexCoord2f(0.0f, 0.0f);
 		gl.glVertex3f(  0.4f, -0.3f, 0.3f );
+		gl.glTexCoord2f(0.0f, 1.0f);
 		gl.glVertex3f(  0.4f, -0.3f, 0.1f );
+		gl.glTexCoord2f(1.0f, 1.0f);
 		gl.glVertex3f(  0.4f, -0.1f, 0.1f );
-		gl.glVertex3f(  0.4f, -0.1f, 0.3f );
-		gl.glEnd();
-		// Draw black outline (outside)
-		gl.glBegin(GL2.GL_LINE_LOOP);
-		gl.glColor3f(   0.0f,  0.0f, 0.0f );
-		gl.glVertex3f(  0.4f, -0.3f, 0.3f );
-		gl.glVertex3f(  0.4f, -0.3f, 0.1f );
-		gl.glVertex3f(  0.4f, -0.1f, 0.1f );
+		gl.glTexCoord2f(1.0f, 0.0f);
 		gl.glVertex3f(  0.4f, -0.1f, 0.3f );
 		gl.glEnd();
 		
 		/* RIGHT */
 		// Draw the square
 		gl.glBegin(GL2.GL_POLYGON);
-		gl.glColor3f(   1.0f,  0.0f, 0.0f );
+		gl.glTexCoord2f(0.0f, 0.0f);
 		gl.glVertex3f(  0.2f, -0.3f, 0.3f );
+		gl.glTexCoord2f(0.0f, 1.0f);
 		gl.glVertex3f(  0.2f, -0.3f, 0.1f );
+		gl.glTexCoord2f(1.0f, 1.0f);
 		gl.glVertex3f(  0.2f, -0.1f, 0.1f );
+		gl.glTexCoord2f(1.0f, 0.0f);
 		gl.glVertex3f(  0.2f, -0.1f, 0.3f );
 		gl.glEnd();
-		// Draw black outline (outside)
-		gl.glBegin(GL2.GL_LINE_LOOP);
-		gl.glColor3f(   0.0f,  0.0f, 0.0f );
-		gl.glVertex3f(  0.2f, -0.3f, 0.3f );
-		gl.glVertex3f(  0.2f, -0.3f, 0.1f );
-		gl.glVertex3f(  0.2f, -0.1f, 0.1f );
-		gl.glVertex3f(  0.2f, -0.1f, 0.3f );
-		gl.glEnd();
-
+		
 		/* TOP */
 		// Draw the square
 		gl.glBegin(GL2.GL_POLYGON);
-		gl.glColor3f(   1.0f,  0.0f, 0.0f );
+		gl.glTexCoord2f(0.0f, 0.0f);
 		gl.glVertex3f(  0.4f, -0.1f, 0.3f );
+		gl.glTexCoord2f(0.0f, 1.0f);
 		gl.glVertex3f(  0.4f, -0.1f, 0.1f );
+		gl.glTexCoord2f(1.0f, 1.0f);
 		gl.glVertex3f(  0.2f, -0.1f, 0.1f );
-		gl.glVertex3f(  0.2f, -0.1f, 0.3f );
-		gl.glEnd();
-		// Draw black outline (outside)
-		gl.glBegin(GL2.GL_LINE_LOOP);
-		gl.glColor3f(   0.0f,  0.0f, 0.0f );
-		gl.glVertex3f(  0.4f, -0.1f, 0.3f );
-		gl.glVertex3f(  0.4f, -0.1f, 0.1f );
-		gl.glVertex3f(  0.2f, -0.1f, 0.1f );
+		gl.glTexCoord2f(1.0f, 0.0f);
 		gl.glVertex3f(  0.2f, -0.1f, 0.3f );
 		gl.glEnd();
 		
 		/* BOTTOM */
 		// Draw the square
 		gl.glBegin(GL2.GL_POLYGON);
-		gl.glColor3f(   1.0f,  0.0f, 0.0f );
+		gl.glTexCoord2f(0.0f, 0.0f);
 		gl.glVertex3f(  0.4f, -0.3f, 0.3f );
+		gl.glTexCoord2f(0.0f, 1.0f);
 		gl.glVertex3f(  0.4f, -0.3f, 0.1f );
+		gl.glTexCoord2f(1.0f, 1.0f);
 		gl.glVertex3f(  0.2f, -0.3f, 0.1f );
-		gl.glVertex3f(  0.2f, -0.3f, 0.3f );
-		gl.glEnd();
-		// Draw black outline (outside)
-		gl.glBegin(GL2.GL_LINE_LOOP);
-		gl.glColor3f(   0.0f,  0.0f, 0.0f );
-		gl.glVertex3f(  0.4f, -0.3f, 0.3f );
-		gl.glVertex3f(  0.4f, -0.3f, 0.1f );
-		gl.glVertex3f(  0.2f, -0.3f, 0.1f );
+		gl.glTexCoord2f(1.0f, 0.0f);
 		gl.glVertex3f(  0.2f, -0.3f, 0.3f );
 		gl.glEnd();
 		
 		/* FRONT */
 		// Draw the square
 		gl.glBegin(GL2.GL_POLYGON);
-		gl.glColor3f(   1.0f,  0.0f, 0.0f );
+		gl.glTexCoord2f(0.0f, 0.0f);
 		gl.glVertex3f(  0.4f, -0.3f, 0.1f );
+		gl.glTexCoord2f(0.0f, 1.0f);
 		gl.glVertex3f(  0.4f, -0.1f, 0.1f );
+		gl.glTexCoord2f(1.0f, 1.0f);
 		gl.glVertex3f(  0.2f, -0.1f, 0.1f );
+		gl.glTexCoord2f(1.0f, 0.0f);
 		gl.glVertex3f(  0.2f, -0.3f, 0.1f );
 		gl.glEnd();
-		// Draw black outline (outside)
-		gl.glBegin(GL2.GL_LINE_LOOP);
-		gl.glColor3f(   0.0f,  0.0f, 0.0f );
-		gl.glVertex3f(  0.4f, -0.3f, 0.1f );
-		gl.glVertex3f(  0.4f, -0.1f, 0.1f );
-		gl.glVertex3f(  0.2f, -0.1f, 0.1f );
-		gl.glVertex3f(  0.2f, -0.3f, 0.1f );
-		gl.glEnd();
+		
+		gl.glDisable(GL2.GL_TEXTURE_2D);
 
 	}
 
@@ -817,7 +749,6 @@ public final class View
 	{
 		
 		gl.glEnable(GL2.GL_TEXTURE_2D);
-	      
 		gl.glBindTexture(GL2.GL_TEXTURE_2D, brickTexture);
 
 		gl.glColor3f(   1.0f,  1.0f, 1.0f );
@@ -884,115 +815,6 @@ public final class View
 		
 	}
 	
-	private void drawCube(GL2 gl)
-	{
-
-		/* Cube will be missing front face */
-
-		// Rotate The Cube On X, Y & Z
-		gl.glRotatef(model.getRotateX(),0,0,1);
-		gl.glRotatef(model.getRotateY(),0,1,0);
-		gl.glRotatef(model.getRotateZ(),1,0,0);
-
-		// White side - BACK
-		gl.glBegin(GL2.GL_POLYGON);
-		gl.glColor3f(   1.0f,  1.0f, 1.0f );
-		gl.glVertex3f(  0.5f, -0.5f, 0.5f );
-		gl.glVertex3f(  0.5f,  0.5f, 0.5f );
-		gl.glVertex3f( -0.5f,  0.5f, 0.5f );
-		gl.glVertex3f( -0.5f, -0.5f, 0.5f );
-		gl.glEnd();
-
-		// Purple side - RIGHT
-		gl.glBegin(GL2.GL_POLYGON);
-		gl.glColor3f(  1.0f,  0.0f,  1.0f );
-		gl.glVertex3f( 0.5f, -0.5f, -0.5f );
-		gl.glVertex3f( 0.5f,  0.5f, -0.5f );
-		gl.glVertex3f( 0.5f,  0.5f,  0.5f );
-		gl.glVertex3f( 0.5f, -0.5f,  0.5f );
-		gl.glEnd();
-
-		// Green side - LEFT
-		gl.glBegin(GL2.GL_POLYGON);
-		gl.glColor3f(   0.0f,  1.0f,  0.0f );
-		gl.glVertex3f( -0.5f, -0.5f,  0.5f );
-		gl.glVertex3f( -0.5f,  0.5f,  0.5f );
-		gl.glVertex3f( -0.5f,  0.5f, -0.5f );
-		gl.glVertex3f( -0.5f, -0.5f, -0.5f );
-		gl.glEnd();
-
-		// Blue side - TOP
-		gl.glBegin(GL2.GL_POLYGON);
-		gl.glColor3f(   0.0f,  0.0f,  1.0f );
-		gl.glVertex3f(  0.5f,  0.5f,  0.5f );
-		gl.glVertex3f(  0.5f,  0.5f, -0.5f );
-		gl.glVertex3f( -0.5f,  0.5f, -0.5f );
-		gl.glVertex3f( -0.5f,  0.5f,  0.5f );
-		gl.glEnd();
-
-		// Red side - BOTTOM
-		gl.glBegin(GL2.GL_POLYGON);
-		gl.glColor3f(   1.0f,  0.0f,  0.0f );
-		gl.glVertex3f(  0.5f, -0.5f, -0.5f );
-		gl.glVertex3f(  0.5f, -0.5f,  0.5f );
-		gl.glVertex3f( -0.5f, -0.5f,  0.5f );
-		gl.glVertex3f( -0.5f, -0.5f, -0.5f );
-		gl.glEnd();
-
-	}
-	
-	private void drawLight(GL2 gl)
-	{
-
-		/* Cube will be missing front face */
-
-		// Rotate The Cube On X, Y & Z
-		gl.glRotatef(model.getRotateX(),0,0,1);
-		gl.glRotatef(model.getRotateY(),0,1,0);
-		gl.glRotatef(model.getRotateZ(),1,0,0);
-
-		// BACK
-		gl.glBegin(GL2.GL_POLYGON);
-		gl.glColor3f(   1.0f,  1.0f, 1.0f );
-		gl.glVertex3f(  0.5f, -0.5f, 0.5f );
-		gl.glVertex3f(  0.5f,  0.5f, 0.5f );
-		gl.glVertex3f( -0.5f,  0.5f, 0.5f );
-		gl.glVertex3f( -0.5f, -0.5f, 0.5f );
-		gl.glEnd();
-
-		// Right
-		gl.glBegin(GL2.GL_POLYGON);
-		gl.glVertex3f( 0.5f, -0.5f, -0.5f );
-		gl.glVertex3f( 0.5f,  0.5f, -0.5f );
-		gl.glVertex3f( 0.5f,  0.5f,  0.5f );
-		gl.glVertex3f( 0.5f, -0.5f,  0.5f );
-		gl.glEnd();
-
-		// LEFT
-		gl.glBegin(GL2.GL_POLYGON);
-		gl.glVertex3f( -0.5f, -0.5f,  0.5f );
-		gl.glVertex3f( -0.5f,  0.5f,  0.5f );
-		gl.glVertex3f( -0.5f,  0.5f, -0.5f );
-		gl.glVertex3f( -0.5f, -0.5f, -0.5f );
-		gl.glEnd();
-
-		// TOP
-		gl.glBegin(GL2.GL_POLYGON);
-		gl.glVertex3f(  0.5f,  0.5f,  0.5f );
-		gl.glVertex3f(  0.5f,  0.5f, -0.5f );
-		gl.glVertex3f( -0.5f,  0.5f, -0.5f );
-		gl.glVertex3f( -0.5f,  0.5f,  0.5f );
-		gl.glEnd();
-
-		// BOTTOM
-		gl.glBegin(GL2.GL_POLYGON);
-		gl.glVertex3f(  0.5f, -0.5f, -0.5f );
-		gl.glVertex3f(  0.5f, -0.5f,  0.5f );
-		gl.glVertex3f( -0.5f, -0.5f,  0.5f );
-		gl.glVertex3f( -0.5f, -0.5f, -0.5f );
-		gl.glEnd();
-
-	}
 	
 	private void drawCylinder(GL2 gl)
 	{
@@ -1008,49 +830,51 @@ public final class View
 	
 	private void	 drawOval(GL2 gl, float cx, float cy, float cz, double w, double h)
 	{
-		gl.glBegin(GL2.GL_TRIANGLE_FAN);
-		gl.glColor3f(0.0f, 1.0f, 0.0f);
-
-		for (int i=0; i<32; i++)
-		{
-			double	a = (2.0 * Math.PI) * (i / 32.0);
-
-			gl.glVertex3f((float)(cx + w * Math.cos(a)), cy, (float)(cz + h * Math.sin(a)));
-		}
-
-		gl.glEnd();
+		gl.glEnable(GL2.GL_TEXTURE_2D);
+		gl.glBindTexture(GL2.GL_TEXTURE_2D, metalTexture);
 		
-		// Draw black outline
-		gl.glBegin(GL2.GL_LINE_LOOP);
-		gl.glColor3f(0.0f, 0.0f, 0.0f);
+		gl.glBegin(GL2.GL_POLYGON);
+		gl.glColor3f(1.0f, 1.0f, 1.0f);
 
 		for (int i=0; i<32; i++)
 		{
 			double	a = (2.0 * Math.PI) * (i / 32.0);
 
+			gl.glTexCoord2f((float)Math.cos(a), (float)Math.sin(a));
 			gl.glVertex3f((float)(cx + w * Math.cos(a)), cy, (float)(cz + h * Math.sin(a)));
 		}
 
 		gl.glEnd();
+
+		gl.glDisable(GL2.GL_TEXTURE_2D);
 	}
 	
 	private void connectOvals(GL2 gl, float cx, float cy, float cz, double w, double h, double cylH)
 	{
+		gl.glEnable(GL2.GL_TEXTURE_2D);
+		gl.glBindTexture(GL2.GL_TEXTURE_2D, metalTexture);
+		
 		gl.glBegin(GL2.GL_QUAD_STRIP);
-		gl.glColor3f(0.0f, 1.0f, 0.0f);
+		gl.glColor3f(1.0f, 1.0f, 1.0f);
 
 		for (int i=0; i<32; i++)
 		{
 			double	a = (2.0 * Math.PI) * (i / 32.0);
 
+			gl.glTexCoord2f(0.0f, 1.0f);
 			gl.glVertex3f((float)(cx + w * Math.cos(a)), cy + (float)cylH, (float)(cz + h * Math.sin(a)));
+			gl.glTexCoord2f(0.0f, 0.0f);
 			gl.glVertex3f((float)(cx + w * Math.cos(a)), cy, (float)(cz + h * Math.sin(a)));
 		}
 		
+		gl.glTexCoord2f(0.0f, 1.0f);
 		gl.glVertex3f((float)(cx + w * Math.cos(0)), cy + (float)cylH, (float)(cz + h * Math.sin(0)));
+		gl.glTexCoord2f(0.0f, 0.0f);
 		gl.glVertex3f((float)(cx + w * Math.cos(0)), cy, (float)(cz + h * Math.sin(0)));
 		
 		gl.glEnd();
+		
+		gl.glDisable(GL2.GL_TEXTURE_2D);
 	}
 
 	//**********************************************************************
