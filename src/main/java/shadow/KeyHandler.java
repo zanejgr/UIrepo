@@ -99,6 +99,10 @@ public final class KeyHandler extends KeyAdapter
 				model.switchLight3();
 				break; 
 				
+			case KeyEvent.VK_SPACE:
+				model.jumbleLights();
+				break;
+				
 			case KeyEvent.VK_ENTER:
 				model.setRotateX(0);
 				model.setRotateY(0);

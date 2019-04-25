@@ -79,7 +79,8 @@ public final class Model
 	private boolean light3On;
 	
 	private LightColor[] colorList = {
-			new LightColor(1.0f, 1.0f, 1.0f), new LightColor(1.0f, 2.0f, 1.0f), new LightColor(1.0f, 1.0f, 2.0f), new LightColor(2.0f, 1.0f, 1.0f)
+			new LightColor(1.0f, 1.0f, 1.0f), new LightColor(1.0f, 2.0f, 1.0f), new LightColor(1.0f, 1.0f, 2.0f), new LightColor(2.0f, 1.0f, 1.0f),
+			new LightColor(2.0f, 2.0f, 1.0f), new LightColor(2.0f, 1.0f, 2.0f), new LightColor(1.0f, 2.0f, 2.0f)
 	};
 	
 	private int colorCounter;
@@ -209,6 +210,18 @@ public final class Model
 	// Public Methods (Modify Variables)
 	//**********************************************************************
 
+	public void jumbleLights()
+	{
+		lightVelocity.x = Math.random() / 10.0;
+		lightVelocity.y = Math.random() / 10.0;
+		
+		lightVelocity2.x = Math.random() / 10.0;
+		lightVelocity2.y = Math.random() / 10.0;
+		
+		lightVelocity3.x = Math.random() / 10.0;
+		lightVelocity3.y = Math.random() / 10.0;
+	}
+	
 	public void switchLight1()
 	{
 		light1On = !light1On;
@@ -227,17 +240,17 @@ public final class Model
 	public void cycleLightColor()
 	{
 		++colorCounter;
-		if(colorCounter > 3)
+		if(colorCounter > 6)
 			colorCounter = 0;
 		this.lightColor = colorList[colorCounter];
 		
 		++colorCounter2;
-		if(colorCounter2 > 3)
+		if(colorCounter2 > 6)
 			colorCounter2 = 0;
 		this.lightColor2 = colorList[colorCounter2];
 		
 		++colorCounter3;
-		if(colorCounter3 > 3)
+		if(colorCounter3 > 6)
 			colorCounter3 = 0;
 		this.lightColor3 = colorList[colorCounter3];
 	}
