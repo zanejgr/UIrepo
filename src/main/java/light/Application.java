@@ -53,7 +53,7 @@ public final class Application
 			});
 
 		// Create the disco ball light
-		Light light = new Light(canvas);
+		View view = new View(canvas);
 		
 	}
 }

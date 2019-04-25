@@ -53,7 +53,7 @@ public final class Model
 	//**********************************************************************
 
 	// State (internal) variables
-	private final Light			light;
+	private final View			light;
 
 	// Model variables
 	private Point2D.Double		origin;			// Current origin coords
@@ -73,7 +73,7 @@ public final class Model
 	// Constructors and Finalizer
 	//**********************************************************************
 
-	public Model(Light light)
+	public Model(View light)
 	{
 		this.light = light;
 

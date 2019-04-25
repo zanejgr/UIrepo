@@ -36,14 +36,14 @@ public final class KeyHandler extends KeyAdapter
 	//**********************************************************************
 
 	// State (internal) variables
-	private final Light	light;
+	private final View	light;
 	private final Model model;
 
 	//**********************************************************************
 	// Constructors and Finalizer
 	//**********************************************************************
 
-	public KeyHandler(Light light, Model model)
+	public KeyHandler(View light, Model model)
 	{
 		this.light = light;
 		this.model = model;
