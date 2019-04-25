@@ -98,15 +98,42 @@ public final class KeyHandler extends KeyAdapter
 			case KeyEvent.VK_3:
 				model.switchLight3();
 				break; 
+			
+			case KeyEvent.VK_4:
+				model.switchLight4();
+				break; 
+				
+			case KeyEvent.VK_5:
+				model.switchLight5();
+				break; 
+				
+			case KeyEvent.VK_6:
+				model.switchLight6();
+				break; 
+				
+			case KeyEvent.VK_7:
+				model.switchLight7();
+				break; 
 				
 			case KeyEvent.VK_SPACE:
 				model.jumbleLights();
 				break;
 				
+			case KeyEvent.VK_R:
+				model.setRadius(Math.min(model.getRadius() + 0.005f, 0.1f));
+				break;
+				
+			case KeyEvent.VK_F:
+				model.setRadius(Math.max(model.getRadius() - 0.005f, 0.01f));
+				break;
+				
 			case KeyEvent.VK_ENTER:
-				model.setRotateX(0);
-				model.setRotateY(0);
-				model.setRotateY(0);				break;
+				model.setRotateX(-15);
+				model.setRotateY(-15);
+				model.setRotateZ(0);				
+				model.setRadius(0.02f);
+				model.resetLights();
+				break;
 		}
 	}
 }

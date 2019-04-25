@@ -64,7 +64,7 @@ public final class View
 	
 	private final Model				model;
 	
-	private float radius = 0.02f;
+	//private float radius = 0.02f;
 
 	private final KeyHandler			keyHandler;
 
@@ -132,7 +132,8 @@ public final class View
 		gl.glEnable(GL2.GL_LINE_SMOOTH);			// Turn on line anti-aliasing
 		gl.glEnable(GL2.GL_MULTISAMPLE);
 		
-		//gl.glShadeModel(GL2.GL_SMOOTH);
+		gl.glEnable(GL2.GL_SHADE_MODEL);
+		gl.glShadeModel(GL2.GL_SMOOTH);
 		
 		gl.glEnable(GL2.GL_DEPTH_TEST);
 		gl.glDepthFunc(GL2.GL_LEQUAL);
@@ -142,11 +143,15 @@ public final class View
 		gl.glEnable(GL2.GL_LIGHTING);
 		gl.glEnable( GL2.GL_LIGHT1 );  
 		gl.glEnable( GL2.GL_LIGHT2 );  
-		gl.glEnable( GL2.GL_LIGHT3 );  
+		gl.glEnable( GL2.GL_LIGHT3 ); 
+		gl.glEnable( GL2.GL_LIGHT4 );  
+		gl.glEnable( GL2.GL_LIGHT5 );  
+		gl.glEnable( GL2.GL_LIGHT6 );
+		gl.glEnable( GL2.GL_LIGHT7 );
+		
+		
 		gl.glEnable(GL2.GL_COLOR_MATERIAL);
 		
-		//gl.glColorMaterial(GL2.GL_FRONT, GL2.GL_AMBIENT_AND_DIFFUSE);
-	     
 	      try{
 	         File image = new File("cratesmall.png");
 	         Texture t = TextureIO.newTexture(image, true);
@@ -226,27 +231,54 @@ public final class View
 		if(counter % 10 == 0)
 			lightmove++;
 		
-		if(model.getLightPosition().x + model.getLightVelocity().x + radius > 0.7f || model.getLightPosition().x + model.getLightVelocity().x - radius < -0.7f)
+		if(model.getLightPosition().x + model.getLightVelocity().x + model.getRadius() > 0.7f || model.getLightPosition().x + model.getLightVelocity().x - model.getRadius() < -0.7f)
 			model.setLightVelocity(-model.getLightVelocity().x, model.getLightVelocity().y);
-		if(model.getLightPosition().y + model.getLightVelocity().y + radius > 0.5f || model.getLightPosition().y + model.getLightVelocity().y - radius < -0.5f)
+		if(model.getLightPosition().y + model.getLightVelocity().y + model.getRadius() > 0.5f || model.getLightPosition().y + model.getLightVelocity().y - model.getRadius() < -0.5f)
 			model.setLightVelocity(model.getLightVelocity().x, -model.getLightVelocity().y);
 		
 		model.setLightPosition(model.getLightPosition().x + model.getLightVelocity().x, model.getLightPosition().y + model.getLightVelocity().y);
 		
-		if(model.getLightPosition2().x + model.getLightVelocity2().x + radius > 0.7f || model.getLightPosition2().x + model.getLightVelocity2().x - radius < -0.7f)
+		if(model.getLightPosition2().x + model.getLightVelocity2().x + model.getRadius() > 0.7f || model.getLightPosition2().x + model.getLightVelocity2().x - model.getRadius() < -0.7f)
 			model.setLightVelocity2(-model.getLightVelocity2().x, model.getLightVelocity2().y);
-		if(model.getLightPosition2().y + model.getLightVelocity2().y + radius > 0.5f || model.getLightPosition2().y + model.getLightVelocity2().y - radius < -0.5f)
+		if(model.getLightPosition2().y + model.getLightVelocity2().y + model.getRadius() > 0.5f || model.getLightPosition2().y + model.getLightVelocity2().y - model.getRadius() < -0.5f)
 			model.setLightVelocity2(model.getLightVelocity2().x, -model.getLightVelocity2().y);
 		
 		model.setLightPosition2(model.getLightPosition2().x + model.getLightVelocity2().x, model.getLightPosition2().y + model.getLightVelocity2().y);
 		
-		if(model.getLightPosition3().x + model.getLightVelocity3().x + radius > 0.7f || model.getLightPosition3().x + model.getLightVelocity3().x - radius < -0.7f)
+		if(model.getLightPosition3().x + model.getLightVelocity3().x + model.getRadius() > 0.7f || model.getLightPosition3().x + model.getLightVelocity3().x - model.getRadius() < -0.7f)
 			model.setLightVelocity3(-model.getLightVelocity3().x, model.getLightVelocity3().y);
-		if(model.getLightPosition3().y + model.getLightVelocity3().y + radius > 0.5f || model.getLightPosition3().y + model.getLightVelocity3().y - radius < -0.5f)
+		if(model.getLightPosition3().y + model.getLightVelocity3().y + model.getRadius() > 0.5f || model.getLightPosition3().y + model.getLightVelocity3().y - model.getRadius() < -0.5f)
 			model.setLightVelocity3(model.getLightVelocity3().x, -model.getLightVelocity3().y);
 		
 		model.setLightPosition3(model.getLightPosition3().x + model.getLightVelocity3().x, model.getLightPosition3().y + model.getLightVelocity3().y);
 		
+		if(model.getLightPosition4().x + model.getLightVelocity4().x + model.getRadius() > 0.7f || model.getLightPosition4().x + model.getLightVelocity4().x - model.getRadius() < -0.7f)
+			model.setLightVelocity4(-model.getLightVelocity4().x, model.getLightVelocity4().y);
+		if(model.getLightPosition4().y + model.getLightVelocity4().y + model.getRadius() > 0.5f || model.getLightPosition4().y + model.getLightVelocity4().y - model.getRadius() < -0.5f)
+			model.setLightVelocity4(model.getLightVelocity4().x, -model.getLightVelocity4().y);
+		
+		model.setLightPosition4(model.getLightPosition4().x + model.getLightVelocity4().x, model.getLightPosition4().y + model.getLightVelocity4().y);
+		
+		if(model.getLightPosition5().x + model.getLightVelocity5().x + model.getRadius() > 0.7f || model.getLightPosition5().x + model.getLightVelocity5().x - model.getRadius() < -0.7f)
+			model.setLightVelocity5(-model.getLightVelocity5().x, model.getLightVelocity5().y);
+		if(model.getLightPosition5().y + model.getLightVelocity5().y + model.getRadius() > 0.5f || model.getLightPosition5().y + model.getLightVelocity5().y - model.getRadius() < -0.5f)
+			model.setLightVelocity5(model.getLightVelocity5().x, -model.getLightVelocity5().y);
+		
+		model.setLightPosition5(model.getLightPosition5().x + model.getLightVelocity5().x, model.getLightPosition5().y + model.getLightVelocity5().y);
+		
+		if(model.getLightPosition6().x + model.getLightVelocity6().x + model.getRadius() > 0.7f || model.getLightPosition6().x + model.getLightVelocity6().x - model.getRadius() < -0.7f)
+			model.setLightVelocity6(-model.getLightVelocity6().x, model.getLightVelocity6().y);
+		if(model.getLightPosition6().y + model.getLightVelocity6().y + model.getRadius() > 0.5f || model.getLightPosition6().y + model.getLightVelocity6().y - model.getRadius() < -0.5f)
+			model.setLightVelocity6(model.getLightVelocity6().x, -model.getLightVelocity6().y);
+		
+		model.setLightPosition6(model.getLightPosition6().x + model.getLightVelocity6().x, model.getLightPosition6().y + model.getLightVelocity6().y);
+		
+		if(model.getLightPosition7().x + model.getLightVelocity7().x + model.getRadius() > 0.7f || model.getLightPosition7().x + model.getLightVelocity7().x - model.getRadius() < -0.7f)
+			model.setLightVelocity7(-model.getLightVelocity7().x, model.getLightVelocity7().y);
+		if(model.getLightPosition7().y + model.getLightVelocity7().y + model.getRadius() > 0.5f || model.getLightPosition7().y + model.getLightVelocity7().y - model.getRadius() < -0.5f)
+			model.setLightVelocity7(model.getLightVelocity7().x, -model.getLightVelocity7().y);
+		
+		model.setLightPosition7(model.getLightPosition7().x + model.getLightVelocity7().x, model.getLightPosition7().y + model.getLightVelocity7().y);
 		
 	}
 
@@ -271,6 +303,25 @@ public final class View
 		else
 			gl.glDisable(GL2.GL_LIGHT3);
 		
+		if(model.isLight4On())
+			gl.glEnable(GL2.GL_LIGHT4);
+		else
+			gl.glDisable(GL2.GL_LIGHT4);
+		
+		if(model.isLight5On())
+			gl.glEnable(GL2.GL_LIGHT5);
+		else
+			gl.glDisable(GL2.GL_LIGHT5);
+		
+		if(model.isLight6On())
+			gl.glEnable(GL2.GL_LIGHT6);
+		else
+			gl.glDisable(GL2.GL_LIGHT6);
+		
+		if(model.isLight7On())
+			gl.glEnable(GL2.GL_LIGHT7);
+		else
+			gl.glDisable(GL2.GL_LIGHT7);
 		
 		
 		//gl.glShadeModel(GL2.GL_SMOOTH);
@@ -329,7 +380,7 @@ public final class View
 		
 		gl.glColor3f(model.getLightColor().red,model.getLightColor().green,model.getLightColor().blue);
 		if(model.isLight1On())
-			MYGLUT.glutWireSphere(radius, 32, 8);
+			MYGLUT.glutWireSphere(model.getRadius(), 32, 8);
 
 		gl.glPopMatrix();
 		
@@ -353,7 +404,7 @@ public final class View
 		
 		gl.glColor3f(model.getLightColor2().red,model.getLightColor2().green,model.getLightColor2().blue);
 		if(model.isLight2On())
-			MYGLUT.glutWireSphere(radius, 32, 8);
+			MYGLUT.glutWireSphere(model.getRadius(), 32, 8);
 
 		gl.glPopMatrix();
 		
@@ -378,10 +429,110 @@ public final class View
 		
 		gl.glColor3f(model.getLightColor3().red,model.getLightColor3().green,model.getLightColor3().blue);
 		if(model.isLight3On())
-			MYGLUT.glutWireSphere(radius, 32, 8);
+			MYGLUT.glutWireSphere(model.getRadius(), 32, 8);
 
 		gl.glPopMatrix();
 		
+		gl.glPushMatrix();
+		
+		gl.glRotatef(model.getRotateX(),1,0,0);
+		gl.glRotatef(model.getRotateY(),0,1,0);
+		gl.glRotatef(model.getRotateZ(),0,0,1);
+		
+		gl.glTranslatef((float)model.getLightPosition4().x, (float)model.getLightPosition4().y, -0.5f);
+		
+		// multicolor diffuse 
+		float[] coloredLight4 = { model.getLightColor4().red * 0.8f,model.getLightColor4().green * 0.8f,model.getLightColor4().blue * 0.8f, 1.0f };
+		gl.glLightfv( GL2.GL_LIGHT4, GL2.GL_POSITION, lightPos1, 0);
+		gl.glLightfv( GL2.GL_LIGHT4, GL2.GL_AMBIENT, dimLight, 0);
+		gl.glLightfv( GL2.GL_LIGHT4, GL2.GL_DIFFUSE, coloredLight4, 0);
+		gl.glLightfv( GL2.GL_LIGHT4, GL2.GL_SPECULAR, white, 0);
+		gl.glLightfv(GL2.GL_LIGHT4, GL2.GL_CONSTANT_ATTENUATION, attenconst, 0);
+		gl.glLightfv(GL2.GL_LIGHT4, GL2.GL_LINEAR_ATTENUATION, attenline, 0);
+		gl.glLightfv(GL2.GL_LIGHT4, GL2.GL_QUADRATIC_ATTENUATION, attenquad, 0);
+		
+		
+		gl.glColor3f(model.getLightColor4().red,model.getLightColor4().green,model.getLightColor4().blue);
+		if(model.isLight4On())
+			MYGLUT.glutWireSphere(model.getRadius(), 32, 8);
+
+		gl.glPopMatrix();
+		
+		gl.glPushMatrix();
+		
+		gl.glRotatef(model.getRotateX(),1,0,0);
+		gl.glRotatef(model.getRotateY(),0,1,0);
+		gl.glRotatef(model.getRotateZ(),0,0,1);
+		
+		gl.glTranslatef((float)model.getLightPosition5().x, (float)model.getLightPosition5().y, -0.5f);
+		
+		// multicolor diffuse 
+		float[] coloredLight5 = { model.getLightColor5().red * 0.8f,model.getLightColor5().green * 0.8f,model.getLightColor5().blue * 0.8f, 1.0f };
+		gl.glLightfv( GL2.GL_LIGHT5, GL2.GL_POSITION, lightPos1, 0);
+		gl.glLightfv( GL2.GL_LIGHT5, GL2.GL_AMBIENT, dimLight, 0);
+		gl.glLightfv( GL2.GL_LIGHT5, GL2.GL_DIFFUSE, coloredLight5, 0);
+		gl.glLightfv( GL2.GL_LIGHT5, GL2.GL_SPECULAR, white, 0);
+		gl.glLightfv(GL2.GL_LIGHT5, GL2.GL_CONSTANT_ATTENUATION, attenconst, 0);
+		gl.glLightfv(GL2.GL_LIGHT5, GL2.GL_LINEAR_ATTENUATION, attenline, 0);
+		gl.glLightfv(GL2.GL_LIGHT5, GL2.GL_QUADRATIC_ATTENUATION, attenquad, 0);
+		
+		
+		gl.glColor3f(model.getLightColor5().red,model.getLightColor5().green,model.getLightColor5().blue);
+		if(model.isLight5On())
+			MYGLUT.glutWireSphere(model.getRadius(), 32, 8);
+
+		gl.glPopMatrix();
+		
+		gl.glPushMatrix();
+		
+		gl.glRotatef(model.getRotateX(),1,0,0);
+		gl.glRotatef(model.getRotateY(),0,1,0);
+		gl.glRotatef(model.getRotateZ(),0,0,1);
+		
+		gl.glTranslatef((float)model.getLightPosition6().x, (float)model.getLightPosition6().y, -0.5f);
+		
+		// multicolor diffuse 
+		float[] coloredLight6 = { model.getLightColor6().red * 0.8f,model.getLightColor6().green * 0.8f,model.getLightColor6().blue * 0.8f, 1.0f };
+		gl.glLightfv( GL2.GL_LIGHT6, GL2.GL_POSITION, lightPos1, 0);
+		gl.glLightfv( GL2.GL_LIGHT6, GL2.GL_AMBIENT, dimLight, 0);
+		gl.glLightfv( GL2.GL_LIGHT6, GL2.GL_DIFFUSE, coloredLight6, 0);
+		gl.glLightfv( GL2.GL_LIGHT6, GL2.GL_SPECULAR, white, 0);
+		gl.glLightfv(GL2.GL_LIGHT6, GL2.GL_CONSTANT_ATTENUATION, attenconst, 0);
+		gl.glLightfv(GL2.GL_LIGHT6, GL2.GL_LINEAR_ATTENUATION, attenline, 0);
+		gl.glLightfv(GL2.GL_LIGHT6, GL2.GL_QUADRATIC_ATTENUATION, attenquad, 0);
+		
+		
+		gl.glColor3f(model.getLightColor6().red,model.getLightColor6().green,model.getLightColor6().blue);
+		if(model.isLight6On())
+			MYGLUT.glutWireSphere(model.getRadius(), 32, 8);
+
+		gl.glPopMatrix();
+		
+		gl.glPushMatrix();
+		
+		gl.glRotatef(model.getRotateX(),1,0,0);
+		gl.glRotatef(model.getRotateY(),0,1,0);
+		gl.glRotatef(model.getRotateZ(),0,0,1);
+		
+		gl.glTranslatef((float)model.getLightPosition7().x, (float)model.getLightPosition7().y, -0.5f);
+		
+		// multicolor diffuse 
+		float[] coloredLight7 = { model.getLightColor7().red * 0.8f,model.getLightColor7().green * 0.8f,model.getLightColor7().blue * 0.8f, 1.0f };
+		gl.glLightfv( GL2.GL_LIGHT7, GL2.GL_POSITION, lightPos1, 0);
+		gl.glLightfv( GL2.GL_LIGHT7, GL2.GL_AMBIENT, dimLight, 0);
+		gl.glLightfv( GL2.GL_LIGHT7, GL2.GL_DIFFUSE, coloredLight7, 0);
+		gl.glLightfv( GL2.GL_LIGHT7, GL2.GL_SPECULAR, white, 0);
+		gl.glLightfv(GL2.GL_LIGHT7, GL2.GL_CONSTANT_ATTENUATION, attenconst, 0);
+		gl.glLightfv(GL2.GL_LIGHT7, GL2.GL_LINEAR_ATTENUATION, attenline, 0);
+		gl.glLightfv(GL2.GL_LIGHT7, GL2.GL_QUADRATIC_ATTENUATION, attenquad, 0);
+		
+		
+		gl.glColor3f(model.getLightColor7().red,model.getLightColor7().green,model.getLightColor7().blue);
+		if(model.isLight7On())
+			MYGLUT.glutWireSphere(model.getRadius(), 32, 8);
+
+		gl.glPopMatrix();
+
 
 	}
 

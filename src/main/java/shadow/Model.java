@@ -60,6 +60,7 @@ public final class Model
 	private float 				rotateX;			// Rotation about X-axis
 	private float 				rotateY;			// Rotation about Y-axis
 	private float 				rotateZ;			// Rotation about Z-axis
+	
 	private Velocity lightVelocity;
 	private Position lightPosition;
 	
@@ -69,14 +70,35 @@ public final class Model
 	private Velocity lightVelocity3;
 	private Position lightPosition3;
 	
-	private int lightRadius;
+	private Velocity lightVelocity4;
+	private Position lightPosition4;
+	
+	private Velocity lightVelocity5;
+	private Position lightPosition5;
+	
+	private Velocity lightVelocity6;
+	private Position lightPosition6;
+	
+	private Velocity lightVelocity7;
+	private Position lightPosition7;
+	
+	private float lightRadius;
+	
 	private LightColor lightColor;
 	private LightColor lightColor2;
 	private LightColor lightColor3;
+	private LightColor lightColor4;
+	private LightColor lightColor5;
+	private LightColor lightColor6;
+	private LightColor lightColor7;
 	
 	private boolean light1On;
 	private boolean light2On;
 	private boolean light3On;
+	private boolean light4On;
+	private boolean light5On;
+	private boolean light6On;
+	private boolean light7On;
 	
 	private LightColor[] colorList = {
 			new LightColor(1.0f, 1.0f, 1.0f), new LightColor(1.0f, 2.0f, 1.0f), new LightColor(1.0f, 1.0f, 2.0f), new LightColor(2.0f, 1.0f, 1.0f),
@@ -86,6 +108,10 @@ public final class Model
 	private int colorCounter;
 	private int colorCounter2;
 	private int colorCounter3;
+	private int colorCounter4;
+	private int colorCounter5;
+	private int colorCounter6;
+	private int colorCounter7;
 
 	//**********************************************************************
 	// Constructors and Finalizer
@@ -109,22 +135,54 @@ public final class Model
 		lightVelocity3 = new Velocity(0.01, 0.04);
 		lightPosition3 = new Position(0.2, 0.4);
 		
+		lightVelocity4 = new Velocity(0.01, 0.01);
+		lightPosition4 = new Position(0.2, 0.3);
+		
+		lightVelocity5 = new Velocity(0.01, -0.02);
+		lightPosition5 = new Position(-0.3, 0.4);
+		
+		lightVelocity6 = new Velocity(-0.01, -0.02);
+		lightPosition6 = new Position(-0.5, -0.3);
+		
+		lightVelocity7 = new Velocity(-0.04, 0.02);
+		lightPosition7 = new Position(-0.5, 0.4);
+		
 		lightColor = colorList[0];
 		lightColor2 = colorList[1];
 		lightColor3 = colorList[2];
+		lightColor4 = colorList[3];
+		lightColor5 = colorList[4];
+		lightColor6 = colorList[5];
+		lightColor7 = colorList[6];
+		
 		
 		light1On = true;
 		light2On = true;
 		light3On = true;
+		light4On = false;
+		light5On = false;
+		light6On = false;
+		light7On = false;
 		
 		colorCounter = 0;
 		colorCounter2 = 1;
 		colorCounter3 = 2;
+		colorCounter4 = 3;
+		colorCounter5 = 4;
+		colorCounter6 = 5;
+		colorCounter7 = 6;
+		
+		lightRadius = 0.02f;
 	}
 
 	//**********************************************************************
 	// Public Methods (Access Variables)
 	//**********************************************************************
+	
+	public float getRadius()
+	{
+		return lightRadius;
+	}
 	
 	public boolean isLight1On()
 	{
@@ -141,6 +199,25 @@ public final class Model
 		return light3On;
 	}
 	
+	public boolean isLight4On()
+	{
+		return light4On;
+	}
+	
+	public boolean isLight5On()
+	{
+		return light5On;
+	}
+	
+	public boolean isLight6On()
+	{
+		return light6On;
+	}
+	
+	public boolean isLight7On()
+	{
+		return light7On;
+	}
 	public LightColor getLightColor()
 	{
 		return lightColor;
@@ -154,6 +231,26 @@ public final class Model
 	public LightColor getLightColor3()
 	{
 		return lightColor3;
+	}
+	
+	public LightColor getLightColor4()
+	{
+		return lightColor4;
+	}
+	
+	public LightColor getLightColor5()
+	{
+		return lightColor5;
+	}
+	
+	public LightColor getLightColor6()
+	{
+		return lightColor6;
+	}
+	
+	public LightColor getLightColor7()
+	{
+		return lightColor7;
 	}
 	
 	public Velocity getLightVelocity()
@@ -186,6 +283,46 @@ public final class Model
 		return this.lightPosition3;
 	}
 	
+	public Velocity getLightVelocity4()
+	{
+		return this.lightVelocity4;
+	}
+	
+	public Position getLightPosition4()
+	{
+		return this.lightPosition4;
+	}
+	
+	public Velocity getLightVelocity5()
+	{
+		return this.lightVelocity5;
+	}
+	
+	public Position getLightPosition5()
+	{
+		return this.lightPosition5;
+	}
+	
+	public Velocity getLightVelocity6()
+	{
+		return this.lightVelocity6;
+	}
+	
+	public Position getLightPosition6()
+	{
+		return this.lightPosition6;
+	}
+	
+	public Velocity getLightVelocity7()
+	{
+		return this.lightVelocity7;
+	}
+	
+	public Position getLightPosition7()
+	{
+		return this.lightPosition7;
+	}
+	
 	public Point2D.Double	getOrigin()
 	{
 		return new Point2D.Double(origin.x, origin.y);
@@ -210,6 +347,30 @@ public final class Model
 	// Public Methods (Modify Variables)
 	//**********************************************************************
 
+	public void resetLights()
+	{
+		light1On = true;
+		light2On = true;
+		light3On = true;
+		light4On = false;
+		light5On = false;
+		light6On = false;
+		light7On = false;
+		
+		lightVelocity = new Velocity(0.01, 0.03);	
+		lightVelocity2 = new Velocity(0.03, 0.02);
+		lightVelocity3 = new Velocity(0.01, 0.04);
+		lightVelocity4 = new Velocity(0.01, 0.01);
+		lightVelocity5 = new Velocity(0.01, -0.02);
+		lightVelocity6 = new Velocity(-0.01, -0.02);
+		lightVelocity7 = new Velocity(-0.04, 0.02);
+	}
+	
+	public void setRadius(float r)
+	{
+		lightRadius = r;
+	}
+	
 	public void jumbleLights()
 	{
 		lightVelocity.x = Math.random() / 10.0;
@@ -220,6 +381,18 @@ public final class Model
 		
 		lightVelocity3.x = Math.random() / 10.0;
 		lightVelocity3.y = Math.random() / 10.0;
+		
+		lightVelocity4.x = Math.random() / 10.0;
+		lightVelocity4.y = Math.random() / 10.0;
+		
+		lightVelocity5.x = Math.random() / 10.0;
+		lightVelocity5.y = Math.random() / 10.0;
+		
+		lightVelocity6.x = Math.random() / 10.0;
+		lightVelocity6.y = Math.random() / 10.0;
+		
+		lightVelocity7.x = Math.random() / 10.0;
+		lightVelocity7.y = Math.random() / 10.0;
 	}
 	
 	public void switchLight1()
@@ -235,6 +408,26 @@ public final class Model
 	public void switchLight3()
 	{
 		light3On = !light3On;
+	}
+	
+	public void switchLight4()
+	{
+		light4On = !light4On;
+	}
+	
+	public void switchLight5()
+	{
+		light5On = !light5On;
+	}
+	
+	public void switchLight6()
+	{
+		light6On = !light6On;
+	}
+	
+	public void switchLight7()
+	{
+		light7On = !light7On;
 	}
 	
 	public void cycleLightColor()
@@ -253,6 +446,27 @@ public final class Model
 		if(colorCounter3 > 6)
 			colorCounter3 = 0;
 		this.lightColor3 = colorList[colorCounter3];
+		
+		++colorCounter4;
+		if(colorCounter4 > 6)
+			colorCounter4 = 0;
+		this.lightColor4 = colorList[colorCounter4];
+		
+		++colorCounter5;
+		if(colorCounter5 > 6)
+			colorCounter5 = 0;
+		this.lightColor5 = colorList[colorCounter5];
+		
+		++colorCounter6;
+		if(colorCounter6 > 6)
+			colorCounter6 = 0;
+		this.lightColor6 = colorList[colorCounter6];
+		
+		++colorCounter7;
+		if(colorCounter7 > 6)
+			colorCounter7 = 0;
+		this.lightColor7 = colorList[colorCounter7];
+		
 	}
 	
 	public void setLightVelocity(double x, double y)
@@ -289,6 +503,54 @@ public final class Model
 	{
 		this.lightPosition3.x = x;
 		this.lightPosition3.y = y;
+	}
+	
+	public void setLightVelocity4(double x, double y)
+	{
+		this.lightVelocity4.x = x;
+		this.lightVelocity4.y = y;
+	}
+	
+	public void setLightPosition4(double x, double y)
+	{
+		this.lightPosition4.x = x;
+		this.lightPosition4.y = y;
+	}
+	
+	public void setLightVelocity5(double x, double y)
+	{
+		this.lightVelocity5.x = x;
+		this.lightVelocity5.y = y;
+	}
+	
+	public void setLightPosition5(double x, double y)
+	{
+		this.lightPosition5.x = x;
+		this.lightPosition5.y = y;
+	}
+	
+	public void setLightVelocity6(double x, double y)
+	{
+		this.lightVelocity6.x = x;
+		this.lightVelocity6.y = y;
+	}
+	
+	public void setLightPosition6(double x, double y)
+	{
+		this.lightPosition6.x = x;
+		this.lightPosition6.y = y;
+	}
+	
+	public void setLightVelocity7(double x, double y)
+	{
+		this.lightVelocity7.x = x;
+		this.lightVelocity7.y = y;
+	}
+	
+	public void setLightPosition7(double x, double y)
+	{
+		this.lightPosition7.x = x;
+		this.lightPosition7.y = y;
 	}
 	
 	public void	setOriginInSceneCoordinates(Point2D.Double q)
