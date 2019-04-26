@@ -53,6 +53,7 @@ public final class View
 	
 	private final FPSAnimator		animator;
 	private int						counter;			// Frame counter
+	private int 					spin;
 	
 	private int crateTexture;
 	private int brickTexture;
@@ -85,6 +86,7 @@ public final class View
 
 		// Initialize rendering
 		counter = 0;
+		spin = 0;
 		canvas.addGLEventListener(this);
 
 
@@ -232,6 +234,10 @@ public final class View
 	{
 		counter++;									// Advance animation counter
 		
+		spin++;
+		if(spin > 360)
+			spin = 0;
+		
 		if(model.getLightPosition().x + model.getLightVelocity().x + model.getRadius() > 0.7f || model.getLightPosition().x + model.getLightVelocity().x - model.getRadius() < -0.7f)
 			model.setLightVelocity(-model.getLightVelocity().x, model.getLightVelocity().y);
 		if(model.getLightPosition().y + model.getLightVelocity().y + model.getRadius() > 0.5f || model.getLightPosition().y + model.getLightVelocity().y - model.getRadius() < -0.5f)
@@ -335,15 +341,19 @@ public final class View
 		gl.glRotatef(model.getRotateZ(),0,0,1);
 		
 		drawRoom(gl);
+		
+		gl.glPushMatrix();
+		gl.glRotatef((float)spin, 1, 0, 0);
 		drawRoomCube(gl, 0.0f, -0.25f, -0.1f);
+		gl.glPopMatrix();
+		
 		drawRoomCube1(gl);
-		//gl.glPushMatrix();
-		//gl.glTranslatef(-0.1f, -0.145f, 0.2f);
-		//gl.glRotatef(45f, 0, 1, 0);
 		
 		drawRoomCube2(gl);
 		
-		//gl.glPopMatrix();
+		drawDoubleHelix(gl, -0.175f, -0.5f, 0.0f);
+		drawHourglass(gl, 0.4f, -0.5f, -0.1f);
+		
 		drawPyramid(gl);
 		drawCylinder(gl);
 
@@ -552,9 +562,108 @@ public final class View
 		renderer.endRendering();
 	}
 	
-	private void drawRandomGeo(GL2 gl)
+	private void drawDoubleHelix(GL2 gl, float x, float y, float z)
 	{
+		gl.glPushMatrix();
+		gl.glScalef(3, 1, 3);
+		drawSpiral(gl, x, y, z, 1.0f, 0.0f, 1.0f);
+		gl.glPushMatrix();
+		gl.glTranslatef(-0.35f, 0.0f, 0.0f);
+		gl.glRotatef(180, 0, 1, 0);
+		drawSpiral(gl, x, y, z, 0.0f, 1.0f, 0.0f);
+		gl.glPopMatrix();
+		drawHelixBars(gl, x, y, z);
+		gl.glPopMatrix();
+	}
+	
+	private void drawSpiral(GL2 gl, float x, float y, float z,	float r, float g, float b)
+	{
+		float xs = 0;
+		float ys = 0;
+		float zs = 0;
 		
+		gl.glBegin(GL.GL_LINE_STRIP);
+		gl.glColor3f(r, g, b);
+		for (float angle = 0; angle < 45; angle += 1)
+		{ 
+			xs = (float)(0.01 * Math.cos(angle));
+			zs = (float)(0.01 * Math.sin(angle));
+			gl.glVertex3f(x + xs, y + ys, z + zs);
+			ys += 0.02;
+		}
+		gl.glEnd();
+	}
+		
+	private void drawHelixBars(GL2 gl, float x, float y, float z)
+	{
+		float xs = 0;
+		float ys = 0;
+		float zs = 0;
+
+		gl.glColor3f(0.0f, 0.5f, 1.0f);
+		for (int angle = 0; angle < 45; ++angle)
+		{ 
+			gl.glBegin(GL.GL_LINES);
+			xs = (float)(0.01 * Math.cos(angle));
+			zs = (float)(0.01 * Math.sin(angle));
+			gl.glVertex3f(x + xs, y + ys, z + zs);
+			gl.glVertex3f(x - xs, y + ys, z - zs);
+			ys += 0.02;
+			gl.glEnd();
+		}
+	}
+	
+	private void drawHourglass(GL2 gl, float x, float y, float z)
+	{
+		// BOTTOM
+		drawOval(gl, x, y + 0.005f, z, 0.1, 0.1);
+	
+		// TOP
+		drawOval(gl, x, y + 0.3f, z, 0.1, 0.1);
+	
+		// Connect them
+		connectOvalsGlass(gl, x, y + 0.3f, z, 0.1, 0.1, y + 0.205f);
+	}
+	
+	private void connectOvalsGlass(GL2 gl, float cx, float cy, float cz, double w, double h, double cylH)
+	{
+		gl.glBegin(GL2.GL_QUAD_STRIP);
+		gl.glColor3f(1.0f, 1.0f, 1.0f);
+	
+		gl.glEnable(GL2.GL_TEXTURE_2D);
+		
+		gl.glBindTexture(GL2.GL_TEXTURE_2D, metalTexture);
+		
+		for (int i=0; i<32; i++)
+		{
+			double	a = (2.0 * Math.PI) * (i / 32.0);
+			gl.glColor3d(Math.random(), Math.random(), Math.random());
+			gl.glVertex3f((float)(cx + w * Math.cos(a)), cy + (float)cylH, (float)(cz + h * Math.sin(a)));
+			gl.glVertex3f((float)(cx), cy + (float)(cylH / 2), (float)(cz));	
+		}
+		
+		gl.glTexCoord2f(0.0f, 0.0f);
+		gl.glVertex3f((float)(cx + w * Math.cos(0)), cy + (float)cylH, (float)(cz + h * Math.sin(0)));
+		gl.glTexCoord2f(0.0f, 1.0f);
+		gl.glVertex3f((float)(cx), cy + (float)(cylH / 2), (float)(cz));
+	
+		gl.glEnd();
+		gl.glBegin(GL2.GL_QUAD_STRIP);
+		gl.glColor3f(0.0f, 1.0f, 0.0f);
+	
+		for (int i=0; i<32; i++)
+		{
+			double	a = (2.0 * Math.PI) * (i / 32.0);
+			gl.glColor3d(Math.random(), Math.random(), Math.random());
+			gl.glVertex3f((float)(cx + w * Math.cos(a)), cy, (float)(cz + h * Math.sin(a)));
+			gl.glVertex3f((float)(cx), cy + (float)(cylH / 2), (float)(cz));
+		}
+		
+		gl.glVertex3f((float)(cx + w * Math.cos(0)), cy, (float)(cz + h * Math.sin(0)));
+		gl.glVertex3f((float)(cx), cy + (float)(cylH / 2), (float)(cz));
+	
+		gl.glEnd();
+		gl.glDisable(GL2.GL_TEXTURE_2D);
 	}
 	
 	private void drawRoom(GL2 gl)
@@ -826,9 +935,13 @@ public final class View
 		// Draw the square
 		gl.glBegin(GL2.GL_POLYGON);
 		gl.glColor4f(   1.0f,  1.0f, 1.0f, 0.25f );
+		gl.glTexCoord2f(0.0f, 0.0f);
 		gl.glVertex3f(  x + 0.1f, y + 0.1f, z + 0.1f);
+		gl.glTexCoord2f(0.0f, 1.0f);
 		gl.glVertex3f(  x - 0.1f, y + 0.1f, z + 0.1f);
+		gl.glTexCoord2f(1.0f, 1.0f);
 		gl.glVertex3f(  x - 0.1f, y - 0.1f, z + 0.1f);
+		gl.glTexCoord2f(1.0f, 0.0f);
 		gl.glVertex3f(  x + 0.1f, y - 0.1f, z + 0.1f);
 		gl.glEnd();
 		
