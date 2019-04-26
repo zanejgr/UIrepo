@@ -10,11 +10,9 @@ import java.util.List;
 import com.jogamp.opengl.*;
 import com.jogamp.opengl.awt.GLJPanel;
 import com.jogamp.opengl.glu.*;
-import com.jogamp.opengl.math.Matrix4;
 import com.jogamp.opengl.util.FPSAnimator;
 import com.jogamp.opengl.util.awt.TextRenderer;
 import com.jogamp.opengl.util.texture.*;
-import org.lwjgl.opengl.*;
 import com.jogamp.opengl.util.gl2.GLUT;
 
 
@@ -51,9 +49,10 @@ public final class View
 	private int						w;				// Canvas width
 	private int						h;				// Canvas height
 
+	private TextRenderer			renderer;
+	
 	private final FPSAnimator		animator;
 	private int						counter;			// Frame counter
-	private int lightmove;
 	
 	private int crateTexture;
 	private int brickTexture;
@@ -61,6 +60,8 @@ public final class View
 	private int grassTexture;
 	private int feltTexture;
 	private int roomTexture;
+	
+	private float[] white = {1.0f, 1.0f, 1.0f, 1.0f};
 	
 	private final Model				model;
 	
@@ -84,7 +85,6 @@ public final class View
 
 		// Initialize rendering
 		counter = 0;
-		lightmove = 0;
 		canvas.addGLEventListener(this);
 
 
@@ -124,6 +124,9 @@ public final class View
 		GL2 gl = drawable.getGL().getGL2();
 		
 		gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);	// Black background
+		
+		renderer = new TextRenderer(new Font("Monospaced", Font.PLAIN, 14),
+				true, true);
 		
 		//gl.glOrtho(-1.0f, 1.0f, -1.0f, 1.0f, 0.01f, 100.0f);
 
@@ -228,8 +231,6 @@ public final class View
 	private void	update(GLAutoDrawable drawable)
 	{
 		counter++;									// Advance animation counter
-		if(counter % 10 == 0)
-			lightmove++;
 		
 		if(model.getLightPosition().x + model.getLightVelocity().x + model.getRadius() > 0.7f || model.getLightPosition().x + model.getLightVelocity().x - model.getRadius() < -0.7f)
 			model.setLightVelocity(-model.getLightVelocity().x, model.getLightVelocity().y);
@@ -323,15 +324,9 @@ public final class View
 		else
 			gl.glDisable(GL2.GL_LIGHT7);
 		
-		
-		//gl.glShadeModel(GL2.GL_SMOOTH);
 		gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		gl.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 		gl.glHint(GL2.GL_PERSPECTIVE_CORRECTION_HINT, GL2.GL_NICEST);
-		
-		float[] white = {1.0f, 1.0f, 1.0f, 1.0f};
-		//gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SPECULAR, white, 0);
-		//gl.glMaterialf(GL2.GL_FRONT, GL2.GL_SHININESS, 16.0f);
 		
 		gl.glPushMatrix();
 		
@@ -339,13 +334,16 @@ public final class View
 		gl.glRotatef(model.getRotateY(),0,1,0);
 		gl.glRotatef(model.getRotateZ(),0,0,1);
 		
-		
-		
-		
 		drawRoom(gl);
 		drawRoomCube(gl, 0.0f, -0.25f, -0.1f);
 		drawRoomCube1(gl);
+		//gl.glPushMatrix();
+		//gl.glTranslatef(-0.1f, -0.145f, 0.2f);
+		//gl.glRotatef(45f, 0, 1, 0);
+		
 		drawRoomCube2(gl);
+		
+		//gl.glPopMatrix();
 		drawPyramid(gl);
 		drawCylinder(gl);
 
@@ -533,13 +531,26 @@ public final class View
 
 		gl.glPopMatrix();
 
-
+		drawMode(drawable);
 	}
 
 	//**********************************************************************
 	// Private Methods (Scene)
 	//**********************************************************************
+	private void	drawMode(GLAutoDrawable drawable)
+	{
+		GL2		gl = drawable.getGL().getGL2();
 
+		renderer.beginRendering(w, h);
+
+		renderer.setColor(0.75f, 0.75f, 0.0f, 1.0f);
+
+		String		sf = ("Light 1 = " + model.isLight1On() +  "  " + "Light 2 = " + model.isLight2On() +  "  " + "Light 3 = " + model.isLight3On() +  "  " + "Light 4 = " + model.isLight4On() +  "  " + "Light 5 = " + model.isLight5On() +  "  " + "Light 6 = " + model.isLight6On() +  "  " + "Light 7 = " + model.isLight7On());
+		
+		renderer.draw(sf, 2, 2);
+
+		renderer.endRendering();
+	}
 	
 	private void drawRandomGeo(GL2 gl)
 	{
@@ -718,6 +729,8 @@ public final class View
 	private void drawRoomCube2(GL2 gl)
 	{
 		gl.glColor3f(   1.0f,  1.0f, 1.0f );
+		
+		gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SPECULAR, white, 0);
 		
 		gl.glEnable(GL2.GL_TEXTURE_2D);
 		gl.glBindTexture(GL2.GL_TEXTURE_2D, grassTexture);
@@ -969,6 +982,7 @@ public final class View
 	
 	private void drawCylinder(GL2 gl)
 	{
+		
 		// BOTTOM
 		drawOval(gl, -0.3f, -0.495f, 0.2f, 0.1, 0.1);
 		
@@ -981,6 +995,15 @@ public final class View
 	
 	private void	 drawOval(GL2 gl, float cx, float cy, float cz, double w, double h)
 	{
+		
+		float[] amb =  {0.19225f,	0.19225f,	0.19225f};
+		float[] diff = {0.50754f,	0.50754f,	0.50754f};
+		float[] spec = {0.508273f,	0.508273f,	0.508273f};
+		gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_AMBIENT, amb, 0);
+		gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_DIFFUSE, diff, 0);
+		gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SPECULAR, spec, 0);
+		gl.glMaterialf(GL2.GL_FRONT, GL2.GL_SHININESS, 0.4f);
+		
 		gl.glEnable(GL2.GL_TEXTURE_2D);
 		gl.glBindTexture(GL2.GL_TEXTURE_2D, metalTexture);
 		
@@ -1002,6 +1025,14 @@ public final class View
 	
 	private void connectOvals(GL2 gl, float cx, float cy, float cz, double w, double h, double cylH)
 	{
+		float[] amb =  {0.19225f,	0.19225f,	0.19225f};
+		float[] diff = {0.50754f,	0.50754f,	0.50754f};
+		float[] spec = {0.508273f,	0.508273f,	0.508273f};
+		gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_AMBIENT, amb, 0);
+		gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_DIFFUSE, diff, 0);
+		gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SPECULAR, spec, 0);
+		gl.glMaterialf(GL2.GL_FRONT, GL2.GL_SHININESS, 0.4f);
+		
 		gl.glEnable(GL2.GL_TEXTURE_2D);
 		gl.glBindTexture(GL2.GL_TEXTURE_2D, metalTexture);
 		
