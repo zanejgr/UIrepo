@@ -112,6 +112,8 @@ public final class Model
 	private int colorCounter5;
 	private int colorCounter6;
 	private int colorCounter7;
+	
+	private float brightness;
 
 	//**********************************************************************
 	// Constructors and Finalizer
@@ -173,11 +175,18 @@ public final class Model
 		colorCounter7 = 6;
 		
 		lightRadius = 0.02f;
+		
+		brightness = 0.8f;
 	}
 
 	//**********************************************************************
 	// Public Methods (Access Variables)
 	//**********************************************************************
+	
+	public float getBrightness()
+	{
+		return brightness;
+	}
 	
 	public float getRadius()
 	{
@@ -346,6 +355,11 @@ public final class Model
 	//**********************************************************************
 	// Public Methods (Modify Variables)
 	//**********************************************************************
+
+	public void setBrightness(float b)
+	{
+		brightness = b;
+	}
 
 	public void resetLights()
 	{

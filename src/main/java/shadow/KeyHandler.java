@@ -127,6 +127,14 @@ public final class KeyHandler extends KeyAdapter
 				model.setRadius(Math.max(model.getRadius() - 0.005f, 0.01f));
 				break;
 				
+			case KeyEvent.VK_E:
+				model.setBrightness(Math.min(model.getBrightness() + 0.01f, 1.0f));
+				break;
+				
+			case KeyEvent.VK_D:
+				model.setBrightness(Math.max(model.getBrightness() - 0.01f, 0.0f));
+				break;
+			
 			case KeyEvent.VK_ENTER:
 				model.setRotateX(-15);
 				model.setRotateY(-15);
